@@ -1,0 +1,17 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "app",
+            "src"
+        ]
+    },
+    "mutators": {
+        "@default": true,
+        "ProtectedVisibility": {
+            "ignore": [
+                "Iteo\\Shared\\DomainEvent\\DomainEventsTrait"
+            ]
+        }
+    }
+}

@@ -1,0 +1,13 @@
+default: list
+
+list:
+	@LC_ALL=C $(MAKE) -pRrq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/(^|\n)# Files(\n|$$)/,/(^|\n)# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | grep -E -v -e '^[^[:alnum:]]' -e '^$@$$'
+
+ecs_fix:
+	./vendor/bin/ecs --fix
+
+check:
+	./vendor/bin/ecs
+	./vendor/bin/phpstan analyse app src tests
+	./vendor/bin/phpunit --testdox
+	./vendor/bin/infection --show-mutations
