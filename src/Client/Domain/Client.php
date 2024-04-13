@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Iteo\Client\Domain;
 
 use Iteo\Client\Domain\ClientState\ClientStateTrait;
+use Iteo\Client\Domain\Event\ClientBlocked;
 use Iteo\Client\Domain\Event\ClientCharged;
 use Iteo\Client\Domain\Event\ClientCreated;
 use Iteo\Client\Domain\Event\OrderPlaced;
+use Iteo\Client\Domain\Exception\CannotPlaceOrderOnBlockedClient;
 use Iteo\Client\Domain\Exception\InsufficentFunds;
 use Iteo\Client\Domain\ValueObject\ClientId;
 use Iteo\Client\Domain\ValueObject\Order\Order;
@@ -21,8 +23,11 @@ final class Client
     use ClientStateTrait;
 
     private Money $balance;
+
     /** @var array<OrderId> */
     private array $orders = [];
+
+    private bool $isBlocked = false;
 
     public function __construct(private readonly ClientId $id)
     {
@@ -45,6 +50,10 @@ final class Client
 
     public function placeOrder(Order $order): void
     {
+        if ($this->isBlocked) {
+            throw new CannotPlaceOrderOnBlockedClient($this->id);
+        }
+
         if (in_array($order->id, $this->orders, true)) {
             return;
         }
@@ -74,5 +83,16 @@ final class Client
                 )
             );
         }
+    }
+
+    public function block(): void
+    {
+        if ($this->isBlocked) {
+            return;
+        }
+
+        $this->isBlocked = true;
+
+        $this->recordEvent(new ClientBlocked($this->id));
     }
 }

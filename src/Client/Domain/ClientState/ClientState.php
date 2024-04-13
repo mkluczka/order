@@ -11,14 +11,13 @@ use Iteo\Shared\Money\Money;
 final readonly class ClientState
 {
     /**
-     * @param ClientId $clientId
-     * @param Money $balance
      * @param array<OrderId> $orders
      */
     public function __construct(
         public ClientId $clientId,
         public Money $balance,
         public array $orders,
+        public bool $isBlocked,
     ) {
     }
 }

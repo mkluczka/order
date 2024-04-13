@@ -30,6 +30,9 @@ class ClientEntity
     #[OneToMany(OrderEntity::class, mappedBy: 'client')]
     public Collection $orders;
 
+    #[Column]
+    public bool $isBlocked;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -40,6 +43,7 @@ class ClientEntity
         $entity = new self();
         $entity->id = (string) $state->clientId;
         $entity->balance = $state->balance->amount->asFloat();
+        $entity->isBlocked = $state->isBlocked;
 
         return $entity;
     }
@@ -47,6 +51,7 @@ class ClientEntity
     public function applyClientState(ClientState $clientState): void
     {
         $this->balance = $clientState->balance->amount->asFloat();
+        $this->isBlocked = $clientState->isBlocked;
     }
 
     public function asClientState(): ClientState
@@ -61,6 +66,7 @@ class ClientEntity
                     }
                 )
                 ->toArray(),
+            $this->isBlocked,
         );
     }
 }

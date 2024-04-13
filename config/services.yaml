@@ -26,6 +26,7 @@ services:
 
   Iteo\Client\Application\Command\CreateClient\CreateClientHandler: ~
   Iteo\Client\Application\Command\PlaceOrder\PlaceOrderHandler: ~
+  Iteo\Client\Application\Command\BlockClient\BlockClientHandler: ~
 
   Iteo\Client\Domain\Specification\ClientIdWasUsed: '@App\Client\ORMClientIdWasUsed'
   Iteo\Client\Domain\Specification\OrderIdWasUsed: '@App\Client\ORMOrderIdWasUsed'

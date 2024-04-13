@@ -19,12 +19,13 @@ trait EntityAssertions
         Assert::assertEmpty($result);
     }
 
-    protected function assertClientInDatabase(string $clientId, float $expectedBalance): void
+    protected function assertClientInDatabase(string $clientId, float $expectedBalance, bool $isBlocked = false): void
     {
         $entity = $this->getClientEntityRepository()->findById($clientId);
 
         Assert::assertInstanceOf(ClientEntity::class, $entity);
         Assert::assertSame($expectedBalance, $entity->balance);
+        Assert::assertEquals($isBlocked, $entity->isBlocked);
     }
 
     private function getClientEntityRepository(): ClientEntityRepository

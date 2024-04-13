@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Client\Command;
 
+use Iteo\Client\Application\Command\BlockClient\BlockClient;
 use Iteo\Client\Application\Command\CreateClient\CreateClient;
 use Iteo\Client\Application\Command\PlaceOrder\PlaceOrder;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
-use Tests\IntegrationTestCase;
+use Tests\AppTestCase;
 use Tests\Utils\EntityAssertions;
 
-final class PlaceOrderHandlerTest extends IntegrationTestCase
+final class PlaceOrderHandlerTest extends AppTestCase
 {
     use EntityAssertions;
 
@@ -22,9 +23,9 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
         $initialBalance = 100.0;
         $expectedBalance = 40.0;
 
-        $this->dispatchCommand(new CreateClient($clientId, $initialBalance));
+        $this->dispatchMessage(new CreateClient($clientId, $initialBalance));
 
-        $this->dispatchCommand(
+        $this->dispatchMessage(
             new PlaceOrder(
                 $orderId,
                 $clientId,
@@ -48,7 +49,7 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
         $this->expectException(HandlerFailedException::class);
         $this->expectExceptionMessageMatches('/Client with id \(def\) was not found/');
 
-        $this->dispatchCommand(
+        $this->dispatchMessage(
             new PlaceOrder(
                 'abc',
                 'def',
@@ -83,11 +84,11 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
         $initialBalance = 100.0;
         $expectedBalance = 25.0;
 
-        $this->dispatchCommand(new CreateClient($clientId, $initialBalance));
+        $this->dispatchMessage(new CreateClient($clientId, $initialBalance));
 
-        $this->dispatchCommand(new PlaceOrder($order1Id, $clientId, $products));
-        $this->dispatchCommand(new PlaceOrder($order2Id, $clientId, $products));
-        $this->dispatchCommand(new PlaceOrder($order3Id, $clientId, $products));
+        $this->dispatchMessage(new PlaceOrder($order1Id, $clientId, $products));
+        $this->dispatchMessage(new PlaceOrder($order2Id, $clientId, $products));
+        $this->dispatchMessage(new PlaceOrder($order3Id, $clientId, $products));
 
         $this->assertClientInDatabase($clientId, $expectedBalance);
         $this->assertOrdersInDatabase($clientId, [$order1Id, $order2Id, $order3Id]);
@@ -98,7 +99,7 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
         $orderId = '27ffc489-b791-4b18-9ea2-609e3bd96746';
         $clientId = '0b1e3cd3-e806-40b5-8a7e-05b2baa64977';
 
-        $this->dispatchCommand(new CreateClient($clientId, 9990.0));
+        $this->dispatchMessage(new CreateClient($clientId, 9990.0));
 
         $placeOrderCommand = new PlaceOrder(
             $orderId,
@@ -113,10 +114,39 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
             ]
         );
 
-        $this->dispatchCommand($placeOrderCommand);
+        $this->dispatchMessage($placeOrderCommand);
 
         $this->expectException(HandlerFailedException::class);
 
-        $this->dispatchCommand($placeOrderCommand);
+        $this->dispatchMessage($placeOrderCommand);
+    }
+
+    public function testCannotPlaceOrderOnBlockedClient(): void
+    {
+        $orderId = '27ffc489-b791-4b18-9ea2-609e3bd96746';
+        $clientId = '0b1e3cd3-e806-40b5-8a7e-05b2baa64977';
+
+        $this->dispatchMessage(new CreateClient($clientId, 111.11));
+        $this->dispatchMessage(new BlockClient($clientId));
+
+        $this->expectException(HandlerFailedException::class);
+        $this->expectExceptionMessageMatches("/Cannot place order on blocked client \($clientId\)/");
+
+        $this->dispatchMessage(
+            new PlaceOrder(
+                $orderId,
+                $clientId,
+                [
+                    [
+                        'productId' => 'A1',
+                        'quantity' => 6,
+                        'price' => 10.0,
+                        'weight' => 100.0,
+                    ]
+                ]
+            )
+        );
+
+        $this->assertOrdersInDatabase($clientId, []);
     }
 }

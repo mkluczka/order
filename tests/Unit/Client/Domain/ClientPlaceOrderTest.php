@@ -40,6 +40,7 @@ final class ClientPlaceOrderTest extends TestCase
                 $clientId,
                 $initialBalance,
                 [],
+                false,
             )
         );
 
@@ -65,6 +66,7 @@ final class ClientPlaceOrderTest extends TestCase
                 $clientId,
                 $initialBalance,
                 [],
+                false,
             )
         );
 
@@ -91,6 +93,7 @@ final class ClientPlaceOrderTest extends TestCase
                 $clientId,
                 $initialBalance,
                 [],
+                false,
             )
         );
 
@@ -122,6 +125,7 @@ final class ClientPlaceOrderTest extends TestCase
                 $clientId,
                 $initialBalance,
                 [],
+                false,
             )
         );
 
