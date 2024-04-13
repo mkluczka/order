@@ -8,7 +8,7 @@ use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Iteo\Customer\Domain\CustomerState\CustomerState;
-use Iteo\Customer\Domain\CustomerState\CustomerStateRepository;
+use Iteo\Customer\Domain\Persistence\CustomerStateRepository;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
 
 /**

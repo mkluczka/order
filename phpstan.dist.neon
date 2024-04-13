@@ -9,6 +9,5 @@ parameters:
         - tests/
 
     ignoreErrors:
-        - '#Property Tests\\.*::.* (.*) does not accept object\.#'
         - '#Call to an undefined method .+\|PHPUnit\\Framework\\MockObject\\MockObject::expects\(\)\.#'
         - '#Method Tests\\.+Test::.+\(\) should return .+ but returns object\.#'

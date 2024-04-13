@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Iteo\Customer\Domain;
+namespace Iteo\Customer\Domain\Persistence;
 
-use Iteo\Customer\Domain\CustomerState\CustomerStateRepository;
+use Iteo\Customer\Domain\Customer;
 use Iteo\Customer\Domain\Exception\CustomerNotFound;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;

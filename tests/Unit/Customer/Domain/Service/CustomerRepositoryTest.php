@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Customer\Domain;
+namespace Tests\Unit\Customer\Domain\Service;
 
 use Iteo\Customer\Domain\Customer;
-use Iteo\Customer\Domain\CustomerRepository;
 use Iteo\Customer\Domain\CustomerState\CustomerState;
-use Iteo\Customer\Domain\CustomerState\CustomerStateRepository;
 use Iteo\Customer\Domain\Event\CustomerCreated;
+use Iteo\Customer\Domain\Persistence\CustomerRepository;
+use Iteo\Customer\Domain\Persistence\CustomerStateRepository;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
 use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;

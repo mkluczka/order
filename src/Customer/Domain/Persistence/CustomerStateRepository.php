@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Iteo\Customer\Domain\CustomerState;
+namespace Iteo\Customer\Domain\Persistence;
 
+use Iteo\Customer\Domain\CustomerState\CustomerState;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
 
 interface CustomerStateRepository

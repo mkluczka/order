@@ -15,7 +15,9 @@ services:
     Iteo\Customer\Application\Command\CreateCustomer\CreateCustomerHandler: ~
     Iteo\Customer\Application\Command\PlaceOrder\PlaceOrderHandler: ~
 
-    Iteo\Customer\Domain\CustomerRepository: ~
-    Iteo\Customer\Domain\CustomerState\CustomerStateRepository: '@App\Repository\CustomerEntityRepository'
+    Iteo\Customer\Domain\Persistence\CustomerRepository: ~
+    Iteo\Customer\Domain\Persistence\CustomerStateRepository: '@App\Repository\CustomerEntityRepository'
 
     Iteo\Shared\DomainEvent\DomainEventsDispatcher: ~
+
+    Iteo\Customer\Domain\Specification\CustomerIdIsUnique: '@App\Customer\ORMCustomerIdIsUnique'

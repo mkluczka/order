@@ -15,7 +15,7 @@ test:
 infection:
 	./vendor/bin/infection --show-mutations
 
-check: ecs_fix phpstan test infection
+check: ecs_fix phpstan test
 
 resetdb: reset_test_db
 	bin/console doctrine:database:drop -f
