@@ -12,6 +12,11 @@ final readonly class Weight implements \Stringable
     {
     }
 
+    public static function fromFloat(float $value): self
+    {
+        return new self(Decimal::fromFloat($value));
+    }
+
     public function multiplyBy(int $value): self
     {
         return new self($this->decimal->multiplyBy($value));

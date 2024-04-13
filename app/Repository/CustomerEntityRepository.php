@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Iteo\Customer\Domain\CustomerState\CustomerState;
 use Iteo\Customer\Domain\CustomerState\CustomerStateRepository;
+use Iteo\Customer\Domain\ValueObject\CustomerId;
 
 /**
  * @extends ServiceEntityRepository<Customer>
@@ -27,8 +28,21 @@ final class CustomerEntityRepository extends ServiceEntityRepository implements 
 
     public function save(CustomerState $customerState): void
     {
-        $entity = Customer::fromCustomerState($customerState);
+        $entity = $this->findOneBy(['uuid' => (string) $customerState->customerId]);
+
+        if (null === $entity) {
+            $entity = Customer::fromCustomerState($customerState);
+        } else {
+            $entity->applyCustomerState($customerState);
+        }
 
         $this->getEntityManager()->persist($entity);
+    }
+
+    public function findByCustomerId(CustomerId $customerId): ?CustomerState
+    {
+        $entity = $this->findOneBy(['uuid' => (string) $customerId]);
+
+        return $entity?->asCustomerState();
     }
 }

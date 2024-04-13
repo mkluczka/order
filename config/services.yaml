@@ -13,6 +13,7 @@ services:
             - '../app/Kernel.php'
 
     Iteo\Customer\Application\Command\CreateCustomer\CreateCustomerHandler: ~
+    Iteo\Customer\Application\Command\PlaceOrder\PlaceOrderHandler: ~
 
     Iteo\Customer\Domain\CustomerRepository: ~
     Iteo\Customer\Domain\CustomerState\CustomerStateRepository: '@App\Repository\CustomerEntityRepository'

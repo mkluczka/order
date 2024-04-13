@@ -8,6 +8,8 @@ use App\Repository\CustomerEntityRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Iteo\Customer\Domain\CustomerState\CustomerState;
+use Iteo\Customer\Domain\ValueObject\CustomerId;
+use Iteo\Shared\Money\Money;
 
 #[ORM\Entity(repositoryClass: CustomerEntityRepository::class)]
 class Customer
@@ -35,5 +37,18 @@ class Customer
         $entity->balance = $state->balance->amount->asFloat();
 
         return $entity;
+    }
+
+    public function applyCustomerState(CustomerState $customerState): void
+    {
+        $this->balance = $customerState->balance->amount->asFloat();
+    }
+
+    public function asCustomerState(): CustomerState
+    {
+        return new CustomerState(
+            new CustomerId($this->uuid),
+            Money::fromFloat($this->balance)
+        );
     }
 }

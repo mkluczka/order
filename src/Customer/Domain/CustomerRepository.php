@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Iteo\Customer\Domain;
 
 use Iteo\Customer\Domain\CustomerState\CustomerStateRepository;
+use Iteo\Customer\Domain\Exception\CustomerNotFound;
+use Iteo\Customer\Domain\ValueObject\CustomerId;
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;
 
 final readonly class CustomerRepository
@@ -20,5 +22,16 @@ final readonly class CustomerRepository
         $this->customerStateRepository->save($customer->save());
 
         $this->domainEventsDispatcher->dispatch(...$customer->collectEvents());
+    }
+
+    public function getByCustomerId(CustomerId $customerId): Customer
+    {
+        $customerState = $this->customerStateRepository->findByCustomerId($customerId);
+
+        if (null === $customerState) {
+            throw new CustomerNotFound($customerId);
+        }
+
+        return Customer::restore($customerState);
     }
 }
