@@ -1,0 +1,9 @@
+framework:
+  messenger:
+    buses:
+      command_bus:
+        middleware:
+          - doctrine_ping_connection
+          - doctrine_close_connection
+          - doctrine_open_transaction_logger
+          - doctrine_transaction
