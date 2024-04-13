@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Utils;
 
-use App\Entity\ClientEntity;
-use App\Entity\OrderEntity;
-use App\Repository\ClientEntityRepository;
-use App\Repository\OrderEntityRepository;
+use App\Infrastructure\Framework\ORM\Entity\ClientEntity;
+use App\Infrastructure\Framework\ORM\Entity\OrderEntity;
+use App\Infrastructure\Framework\ORM\Repository\ClientEntityRepository;
+use App\Infrastructure\Framework\ORM\Repository\OrderEntityRepository;
 use PHPUnit\Framework\Assert;
 
 trait EntityAssertions

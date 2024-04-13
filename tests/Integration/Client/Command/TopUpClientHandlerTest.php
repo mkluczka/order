@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Client\Command;
 
-use Iteo\Client\Application\Command\CreateClient\CreateClient;
-use Iteo\Client\Application\Command\TopUpClient\TopUpClient;
+use Iteo\Client\Application\CreateClient\CreateClient;
+use Iteo\Client\Application\TopUpClient\TopUpClient;
 use Tests\AppTestCase;
 use Tests\Utils\EntityAssertions;
 

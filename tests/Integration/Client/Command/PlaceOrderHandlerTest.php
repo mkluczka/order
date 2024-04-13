@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Client\Command;
 
-use Iteo\Client\Application\Command\BlockClient\BlockClient;
-use Iteo\Client\Application\Command\CreateClient\CreateClient;
-use Iteo\Client\Application\Command\PlaceOrder\PlaceOrder;
+use Iteo\Client\Application\BlockClient\BlockClient;
+use Iteo\Client\Application\CreateClient\CreateClient;
+use Iteo\Client\Application\PlaceOrder\PlaceOrder;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Tests\AppTestCase;
 use Tests\Utils\EntityAssertions;

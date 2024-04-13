@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Console;
 
-use Iteo\Client\Application\Command\CreateClient\CreateClient;
+use Iteo\Client\Application\CreateClient\CreateClient;
 use Tests\ConsoleCommandTest;
 use Tests\Utils\EntityAssertions;
 

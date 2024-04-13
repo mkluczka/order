@@ -2,7 +2,7 @@
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
-    "prefer-stable": true,
+    "prefer-stable": false,
     "require": {
         "php": ">=8.3",
         "ext-ctype": "*",
@@ -28,7 +28,8 @@
             "php-http/discovery": true,
             "symfony/flex": true,
             "symfony/runtime": true,
-            "infection/extension-installer": true
+            "infection/extension-installer": true,
+            "phpro/grumphp": true
         },
         "sort-packages": true
     },
