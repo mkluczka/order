@@ -15,14 +15,14 @@ test:
 infection:
 	./vendor/bin/infection --show-mutations
 
-check: ecs_fix phpstan tests infection
+check: ecs_fix phpstan test infection
 
-resetdb:
+resetdb: reset_test_db
 	bin/console doctrine:database:drop -f
-	bin/console doctrine:database:drop -f -etest
-
 	bin/console doctrine:database:create
-	bin/console doctrine:database:create -etest
-
 	bin/console doctrine:migrations:migrate --no-interaction
+
+reset_test_db:
+	bin/console doctrine:database:drop -f -etest
+	bin/console doctrine:database:create -etest
 	bin/console doctrine:migrations:migrate --no-interaction -etest

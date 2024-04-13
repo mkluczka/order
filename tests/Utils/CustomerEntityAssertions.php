@@ -15,11 +15,10 @@ trait CustomerEntityAssertions
         return self::getContainer()->get(CustomerEntityRepository::class);
     }
 
-    protected function databaseHasCustomer(string $customerId, float $expectedBalance): void
+    protected function assertDatabaseHasCustomer(string $customerId, float $expectedBalance): void
     {
         $entity = self::getCustomerEntityRepository()->findOneBy(['uuid' => $customerId]);
 
-        Assert::assertIsInt($entity?->getId());
         Assert::assertInstanceOf(Customer::class, $entity);
         Assert::assertSame($expectedBalance, $entity->balance);
     }

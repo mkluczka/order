@@ -16,3 +16,5 @@ services:
 
     Iteo\Customer\Domain\CustomerRepository: ~
     Iteo\Customer\Domain\CustomerState\CustomerStateRepository: '@App\Repository\CustomerEntityRepository'
+
+    Iteo\Shared\DomainEvent\DomainEventsDispatcher: ~

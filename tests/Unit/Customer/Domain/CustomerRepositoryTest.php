@@ -8,7 +8,9 @@ use Iteo\Customer\Domain\Customer;
 use Iteo\Customer\Domain\CustomerRepository;
 use Iteo\Customer\Domain\CustomerState\CustomerState;
 use Iteo\Customer\Domain\CustomerState\CustomerStateRepository;
+use Iteo\Customer\Domain\Event\CustomerCreated;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
+use Iteo\Shared\DomainEvent\DomainEventsDispatcher;
 use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -17,6 +19,7 @@ final class CustomerRepositoryTest extends TestCase
 {
     private CustomerRepository $sut;
     private CustomerStateRepository|MockObject $customerStateRepositoryMock;
+    private DomainEventsDispatcher|MockObject $domainEventsDispatcherMock;
 
     protected function setUp(): void
     {
@@ -24,6 +27,7 @@ final class CustomerRepositoryTest extends TestCase
 
         $this->sut = new CustomerRepository(
             $this->customerStateRepositoryMock = $this->createMock(CustomerStateRepository::class),
+            $this->domainEventsDispatcherMock = $this->createMock(DomainEventsDispatcher::class),
         );
     }
 
@@ -39,6 +43,21 @@ final class CustomerRepositoryTest extends TestCase
             ->expects($this->once())
             ->method('save')
             ->with($customerState);
+
+        $this->sut->save($customer);
+    }
+
+    public function testDomainEventsAreDispatched(): void
+    {
+        $customerId = new CustomerId('5adb7472-1a30-425b-b755-892805ba2065');
+        $initialBalance = new Money(11.11);
+
+        $customer = Customer::create($customerId, $initialBalance);
+
+        $this->domainEventsDispatcherMock
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(new CustomerCreated($customerId, $initialBalance));
 
         $this->sut->save($customer);
     }

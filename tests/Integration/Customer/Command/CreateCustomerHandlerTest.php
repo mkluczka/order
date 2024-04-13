@@ -6,11 +6,13 @@ namespace Tests\Integration\Customer\Command;
 
 use Iteo\Customer\Application\Command\CreateCustomer\CreateCustomer;
 use Tests\IntegrationTestCase;
+use Tests\Utils\AuditLogEntityAssertions;
 use Tests\Utils\CustomerEntityAssertions;
 
 final class CreateCustomerHandlerTest extends IntegrationTestCase
 {
     use CustomerEntityAssertions;
+    use AuditLogEntityAssertions;
 
     public function testCreateCustomer(): void
     {
@@ -19,6 +21,7 @@ final class CreateCustomerHandlerTest extends IntegrationTestCase
 
         $this->dispatchCommand(new CreateCustomer($customerId, $initialBalance));
 
-        $this->databaseHasCustomer($customerId, $initialBalance);
+        $this->assertDatabaseHasCustomer($customerId, $initialBalance);
+        $this->assertDatabaseHasCustomerCreated($customerId, $initialBalance);
     }
 }
