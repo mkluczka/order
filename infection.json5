@@ -6,6 +6,9 @@
             "src"
         ]
     },
+    "logs": {
+        "text": "infection.log"
+    },
     "mutators": {
         "@default": true,
         "ProtectedVisibility": {

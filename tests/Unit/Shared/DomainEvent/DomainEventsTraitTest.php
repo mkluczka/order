@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Shared\DomainEvent;
 
 use Iteo\Shared\DomainEvent\DomainEvent;
-use Iteo\Shared\DomainEvent\DomainEventsTrait;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Tests\Utils\DomainEventsAwareFake;
 
-#[CoversClass(DomainEventsTrait::class)]
 final class DomainEventsTraitTest extends TestCase
 {
     public function testCollectEvents(): void

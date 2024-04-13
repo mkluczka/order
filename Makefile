@@ -6,8 +6,13 @@ list:
 ecs_fix:
 	./vendor/bin/ecs --fix
 
-check:
-	./vendor/bin/ecs
+phpstan:
 	./vendor/bin/phpstan analyse app src tests
+
+test:
 	./vendor/bin/phpunit --testdox
+
+infection:
 	./vendor/bin/infection --show-mutations
+
+check: ecs_fix phpstan tests infection

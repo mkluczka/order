@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Integration\Shared;
 
-use App\Shared\SymfonyDomainEventsDispatcher;
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;
-use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Tests\IntegrationTestCase;
 use Tests\Utils\FakeDomainEvent;
 
-#[CoversClass(SymfonyDomainEventsDispatcher::class)]
 final class DomainEventsDispatcherTest extends IntegrationTestCase
 {
     private DomainEventsDispatcher $sut;
