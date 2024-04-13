@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Tests\Integration\Shared;
 
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 use Tests\IntegrationTestCase;
 use Tests\Utils\FakeDomainEvent;
 
 final class DomainEventsDispatcherTest extends IntegrationTestCase
 {
     private DomainEventsDispatcher $sut;
-    private EventDispatcher $eventDispatcher;
+    private TraceableEventDispatcher $eventDispatcher;
 
     protected function setUp(): void
     {

@@ -12,8 +12,7 @@ services:
             - '../app/Entity/'
             - '../app/Kernel.php'
 
-    Iteo\:
-        resource: '../src/'
-        exclude:
-            - '../src/Customer/Domain/'
-            - '../src/Shared/Money/'
+    Iteo\Customer\Application\Command\CreateCustomer\CreateCustomerHandler: ~
+
+    Iteo\Customer\Domain\CustomerRepository: ~
+    Iteo\Customer\Domain\CustomerState\CustomerStateRepository: '@App\Repository\CustomerEntityRepository'

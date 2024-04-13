@@ -10,3 +10,5 @@ parameters:
 
     ignoreErrors:
         - '#Property Tests\\.*::.* (.*) does not accept object\.#'
+        - '#Call to an undefined method .+\|PHPUnit\\Framework\\MockObject\\MockObject::expects\(\)\.#'
+        - '#Method Tests\\.+Test::getCustomerEntityRepository\(\) should return .+ but returns object\.#'

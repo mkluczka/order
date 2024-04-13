@@ -8,7 +8,7 @@ use Iteo\Shared\Money\Exception\MoneyAmountMustNotBeNegative;
 
 final readonly class Money implements \Stringable
 {
-    public function __construct(private float $amount)
+    public function __construct(public float $amount)
     {
         if ($amount < 0) {
             throw new MoneyAmountMustNotBeNegative($this->amount);
