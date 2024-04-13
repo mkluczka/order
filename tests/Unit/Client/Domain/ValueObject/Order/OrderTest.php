@@ -10,7 +10,7 @@ use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Money;
 use Monolog\Test\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\Utils\OrderItemGenerator as Items;
+use Tests\Utils\ProductGenerator as Items;
 
 final class OrderTest extends TestCase
 {

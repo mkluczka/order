@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Iteo\Client\Domain\ValueObject\Order\Exception;
 
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Weight;
+use Iteo\Client\Domain\ValueObject\Order\Product\Weight;
 
 final class OrderWeightTooBig extends \DomainException
 {

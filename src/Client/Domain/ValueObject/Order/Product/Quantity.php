@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Iteo\Client\Domain\ValueObject\Order\OrderItem;
+namespace Iteo\Client\Domain\ValueObject\Order\Product;
 
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Exception\QuantityMustByNonNegative;
+use Iteo\Client\Domain\ValueObject\Order\Product\Exception\QuantityMustByNonNegative;
 use Stringable;
 
 final readonly class Quantity implements Stringable

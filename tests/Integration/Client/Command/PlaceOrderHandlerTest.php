@@ -71,7 +71,7 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
         $order3Id = '45276de9-8f87-4ee7-a9a8-7b9f3ed1321e';
         $clientId = '0b1e3cd3-e806-40b5-8a7e-05b2baa64977';
 
-        $orderItems = [
+        $products = [
             [
                 'productId' => 'A1',
                 'quantity' => 5,
@@ -85,9 +85,9 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
 
         $this->dispatchCommand(new CreateClient($clientId, $initialBalance));
 
-        $this->dispatchCommand(new PlaceOrder($order1Id, $clientId, $orderItems));
-        $this->dispatchCommand(new PlaceOrder($order2Id, $clientId, $orderItems));
-        $this->dispatchCommand(new PlaceOrder($order3Id, $clientId, $orderItems));
+        $this->dispatchCommand(new PlaceOrder($order1Id, $clientId, $products));
+        $this->dispatchCommand(new PlaceOrder($order2Id, $clientId, $products));
+        $this->dispatchCommand(new PlaceOrder($order3Id, $clientId, $products));
 
         $this->assertClientInDatabase($clientId, $expectedBalance);
         $this->assertOrdersInDatabase($clientId, [$order1Id, $order2Id, $order3Id]);

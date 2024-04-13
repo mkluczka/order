@@ -6,32 +6,32 @@ namespace Tests\Utils;
 
 use Iteo\Client\Domain\ValueObject\Order\Order;
 use Iteo\Client\Domain\ValueObject\Order\OrderId;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\OrderItem;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\ProductId;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Quantity;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Weight;
+use Iteo\Client\Domain\ValueObject\Order\Product\Product;
+use Iteo\Client\Domain\ValueObject\Order\Product\ProductId;
+use Iteo\Client\Domain\ValueObject\Order\Product\Quantity;
+use Iteo\Client\Domain\ValueObject\Order\Product\Weight;
 use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Money;
 use Ramsey\Uuid\Uuid;
 
-final class OrderItemGenerator
+final class ProductGenerator
 {
     /**
      * @param array<int> $quantities
      */
     public static function orderWithItemQuantities(array $quantities): Order
     {
-        $orderItems = [];
+        $products = [];
 
         foreach ($quantities as $quantity) {
-            $orderItems[] = self::orderItem($quantity);
+            $products[] = self::product($quantity);
         }
 
-        return self::order($orderItems);
+        return self::order($products);
     }
 
     /**
-     * @param array<OrderItem> $items
+     * @param array<Product> $items
      * @return Order
      */
     public static function order(array $items): Order
@@ -42,9 +42,9 @@ final class OrderItemGenerator
         );
     }
 
-    public static function orderItem(int $quantity = 1, float $weight = 55.5, float $price = 12.34): OrderItem
+    public static function product(int $quantity = 1, float $weight = 55.5, float $price = 12.34): Product
     {
-        return new OrderItem(
+        return new Product(
             new ProductId(Uuid::uuid4()->toString()),
             new Money(Decimal::fromFloat($price)),
             new Weight(Decimal::fromFloat($weight)),
@@ -58,13 +58,13 @@ final class OrderItemGenerator
      */
     public static function orderWithWeighAndQuantities(array $items): Order
     {
-        $orderItems = [];
+        $products = [];
 
         foreach ($items as $item) {
-            $orderItems[] = self::orderItem($item[1], $item[0]);
+            $products[] = self::product($item[1], $item[0]);
         }
 
-        return self::order($orderItems);
+        return self::order($products);
     }
 
     /**
@@ -73,12 +73,12 @@ final class OrderItemGenerator
      */
     public static function orderWithPriceAndQuantities(array $items): Order
     {
-        $orderItems = [];
+        $products = [];
 
         foreach ($items as $item) {
-            $orderItems[] = self::orderItem($item[1], price: $item[0]);
+            $products[] = self::product($item[1], price: $item[0]);
         }
 
-        return self::order($orderItems);
+        return self::order($products);
     }
 }

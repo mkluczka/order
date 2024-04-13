@@ -10,10 +10,10 @@ use Iteo\Client\Domain\Specification\OrderIdWasUsed;
 use Iteo\Client\Domain\ValueObject\ClientId;
 use Iteo\Client\Domain\ValueObject\Order\Order;
 use Iteo\Client\Domain\ValueObject\Order\OrderId;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\OrderItem;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\ProductId;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Quantity;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Weight;
+use Iteo\Client\Domain\ValueObject\Order\Product\Product;
+use Iteo\Client\Domain\ValueObject\Order\Product\ProductId;
+use Iteo\Client\Domain\ValueObject\Order\Product\Quantity;
+use Iteo\Client\Domain\ValueObject\Order\Product\Weight;
 use Iteo\Shared\Money\Money;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -31,7 +31,7 @@ final readonly class PlaceOrderHandler
         $orderId = new OrderId($command->orderId);
         $clientId = new ClientId($command->clientId);
 
-        $order = new Order($orderId, $this->buildOrderItems($command));
+        $order = new Order($orderId, $this->buildProducts($command));
 
         if (!$this->orderIdWasUsed->isSatisfiedBy($orderId)) {
             throw new OrderIdIsAlreadyUsed($orderId);
@@ -44,20 +44,20 @@ final readonly class PlaceOrderHandler
     }
 
     /**
-     * @return array<OrderItem>
+     * @return array<Product>
      */
-    private function buildOrderItems(PlaceOrder $command): array
+    private function buildProducts(PlaceOrder $command): array
     {
         return array_map(
             function (array $item) {
-                return new OrderItem(
+                return new Product(
                     new ProductId($item['productId']),
                     Money::fromFloat($item['price']),
                     Weight::fromFloat($item['weight']),
                     new Quantity($item['quantity'])
                 );
             },
-            $command->orderItems
+            $command->products
         );
     }
 }

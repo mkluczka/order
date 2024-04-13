@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Client\Domain\ValueObject\Order\OrderItem;
+namespace Tests\Unit\Client\Domain\ValueObject\Order\Product;
 
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Exception\QuantityMustByNonNegative;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Quantity;
+use Iteo\Client\Domain\ValueObject\Order\Product\Exception\QuantityMustByNonNegative;
+use Iteo\Client\Domain\ValueObject\Order\Product\Quantity;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 

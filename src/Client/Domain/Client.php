@@ -61,7 +61,7 @@ final class Client
             new OrderPlaced(
                 $order->id,
                 $this->id,
-                $order->orderItems,
+                $order->products,
             )
         );
 

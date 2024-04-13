@@ -14,7 +14,7 @@ use Iteo\Client\Domain\ValueObject\Order\Order;
 use Iteo\Client\Domain\ValueObject\Order\OrderId;
 use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\TestCase;
-use Tests\Utils\OrderItemGenerator;
+use Tests\Utils\ProductGenerator;
 
 final class ClientPlaceOrderTest extends TestCase
 {
@@ -24,14 +24,14 @@ final class ClientPlaceOrderTest extends TestCase
         $initialBalance = Money::fromFloat(999);
 
         $orderId = new OrderId('4c56a7a6-329b-42ca-b5d8-ae65fb35770f');
-        $orderItems = [
-            OrderItemGenerator::orderItem(5, 2, 3),
-            OrderItemGenerator::orderItem(5, 3, 4),
+        $products = [
+            ProductGenerator::product(5, 2, 3),
+            ProductGenerator::product(5, 3, 4),
         ];
-        $order = new Order($orderId, $orderItems);
+        $order = new Order($orderId, $products);
 
         $expectedEvents = [
-            new OrderPlaced($orderId, $clientId, $orderItems),
+            new OrderPlaced($orderId, $clientId, $products),
             new ClientCharged($clientId, $initialBalance, Money::fromFloat(964)),
         ];
 
@@ -55,10 +55,10 @@ final class ClientPlaceOrderTest extends TestCase
         $initialBalance = Money::fromFloat(999);
 
         $orderId = new OrderId('4c56a7a6-329b-42ca-b5d8-ae65fb35770f');
-        $orderItems = [OrderItemGenerator::orderItem(5, 2, 0)];
-        $order = new Order($orderId, $orderItems);
+        $products = [ProductGenerator::product(5, 2, 0)];
+        $order = new Order($orderId, $products);
 
-        $expectedEvents = [new OrderPlaced($orderId, $clientId, $orderItems)];
+        $expectedEvents = [new OrderPlaced($orderId, $clientId, $products)];
 
         $client = Client::restore(
             new ClientState(
@@ -80,8 +80,8 @@ final class ClientPlaceOrderTest extends TestCase
         $initialBalance = Money::fromFloat(0);
 
         $orderId = new OrderId('4c56a7a6-329b-42ca-b5d8-ae65fb35770f');
-        $orderItems = [OrderItemGenerator::orderItem(5, 2, 1)];
-        $order = new Order($orderId, $orderItems);
+        $products = [ProductGenerator::product(5, 2, 1)];
+        $order = new Order($orderId, $products);
 
         $this->expectException(InsufficentFunds::class);
         $this->expectExceptionMessageMatches('/Order price \(5\.00\)/');
@@ -106,14 +106,14 @@ final class ClientPlaceOrderTest extends TestCase
         $initialBalance = Money::fromFloat(999);
 
         $orderId = new OrderId('4c56a7a6-329b-42ca-b5d8-ae65fb35770f');
-        $orderItems = [
-            OrderItemGenerator::orderItem(5, 2, 3),
-            OrderItemGenerator::orderItem(5, 3, 4),
+        $products = [
+            ProductGenerator::product(5, 2, 3),
+            ProductGenerator::product(5, 3, 4),
         ];
-        $order = new Order($orderId, $orderItems);
+        $order = new Order($orderId, $products);
 
         $expectedEvents = [
-            new OrderPlaced($orderId, $clientId, $orderItems),
+            new OrderPlaced($orderId, $clientId, $products),
             new ClientCharged($clientId, $initialBalance, Money::fromFloat(964)),
         ];
 

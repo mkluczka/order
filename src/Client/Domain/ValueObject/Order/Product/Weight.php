@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Iteo\Client\Domain\ValueObject\Order\OrderItem;
+namespace Iteo\Client\Domain\ValueObject\Order\Product;
 
 use Iteo\Shared\Decimal\Decimal;
 

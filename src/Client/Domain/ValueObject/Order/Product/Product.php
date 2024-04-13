@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Iteo\Client\Domain\ValueObject\Order\OrderItem;
+namespace Iteo\Client\Domain\ValueObject\Order\Product;
 
 use Iteo\Shared\Money\Money;
 
-final readonly class OrderItem
+final readonly class Product
 {
     public Weight $weight;
     public Money $price;

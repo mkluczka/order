@@ -6,9 +6,9 @@ namespace Iteo\Client\Domain\ValueObject\Order;
 
 use Iteo\Client\Domain\ValueObject\Order\Exception\OrderSizeTooSmall;
 use Iteo\Client\Domain\ValueObject\Order\Exception\OrderWeightTooBig;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\OrderItem;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Quantity;
-use Iteo\Client\Domain\ValueObject\Order\OrderItem\Weight;
+use Iteo\Client\Domain\ValueObject\Order\Product\Product;
+use Iteo\Client\Domain\ValueObject\Order\Product\Quantity;
+use Iteo\Client\Domain\ValueObject\Order\Product\Weight;
 use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Money;
 
@@ -20,11 +20,11 @@ final readonly class Order
     public Money $price;
 
     /**
-     * @param array<OrderItem> $orderItems
+     * @param array<Product> $products
      */
     public function __construct(
         public OrderId $id,
-        public array $orderItems,
+        public array $products,
     ) {
         $this->validateOrderWeight();
         $this->validateOrderSize();
@@ -34,11 +34,10 @@ final readonly class Order
 
     private function validateOrderWeight(): void
     {
-        /** @var Weight $orderWeight */
         $orderWeight = array_reduce(
-            $this->orderItems,
-            function (Weight $carry, OrderItem $orderItem) {
-                return $carry->plus($orderItem->weight);
+            $this->products,
+            function (Weight $carry, Product $product) {
+                return $carry->plus($product->weight);
             },
             new Weight(Decimal::fromFloat(0))
         );
@@ -50,11 +49,10 @@ final readonly class Order
 
     private function validateOrderSize(): void
     {
-        /** @var Quantity $orderSize */
         $orderSize = array_reduce(
-            $this->orderItems,
-            function (Quantity $carry, OrderItem $orderItem) {
-                return $carry->plus($orderItem->productQuantity);
+            $this->products,
+            function (Quantity $carry, Product $product) {
+                return $carry->plus($product->productQuantity);
             },
             new Quantity(0),
         );
@@ -67,9 +65,9 @@ final readonly class Order
     private function calculateOrderPrice(): Money
     {
         return array_reduce(
-            $this->orderItems,
-            function (Money $carry, OrderItem $orderItem) {
-                return $carry->plus($orderItem->price);
+            $this->products,
+            function (Money $carry, Product $product) {
+                return $carry->plus($product->price);
             },
             new Money(Decimal::fromFloat(0))
         );

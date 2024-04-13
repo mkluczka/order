@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Iteo\Client\Domain\ValueObject\Order\OrderItem\Exception;
+namespace Iteo\Client\Domain\ValueObject\Order\Product\Exception;
 
 final class QuantityMustByNonNegative extends \DomainException
 {
