@@ -80,4 +80,26 @@ final class DecimalTest extends TestCase
             Decimal::fromFloat($left)->isMoreThen(Decimal::fromFloat($right)),
         );
     }
+
+    #[TestWith([1.0, 2.0, '-1.00'])]
+    #[TestWith([2.0, 1.0, '1.00'])]
+    #[TestWith([0.0, 0.0, '0.00'])]
+    public function testMinus(float $left, float $right, string $expected): void
+    {
+        $this->assertEquals(
+            $expected,
+            (string) Decimal::fromFloat($left)->minus(Decimal::fromFloat($right)),
+        );
+    }
+
+    #[TestWith([1.0, 1.0, true])]
+    #[TestWith([1.00, 1, true])]
+    #[TestWith([2.0, 1.0, false])]
+    public function testEquals(float $left, float $right, bool $expected): void
+    {
+        $this->assertEquals(
+            $expected,
+            Decimal::fromFloat($left)->equals(Decimal::fromFloat($right)),
+        );
+    }
 }

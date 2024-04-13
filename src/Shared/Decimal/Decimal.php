@@ -47,6 +47,16 @@ final readonly class Decimal implements Stringable
         return $this->decimalAmount < $other->decimalAmount;
     }
 
+    public function minus(self $other): self
+    {
+        return new self($this->decimalAmount - $other->decimalAmount);
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->decimalAmount === $other->decimalAmount;
+    }
+
     public function __toString(): string
     {
         return number_format($this->asFloat(), 2);

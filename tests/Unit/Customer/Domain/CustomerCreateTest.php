@@ -12,7 +12,7 @@ use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
-final class CustomerTest extends TestCase
+final class CustomerCreateTest extends TestCase
 {
     #[TestWith(['b13d1d65-1866-4e04-af33-6ea236d224de', 55.55])]
     #[TestWith(['ad85a94f-3d2d-41d3-8ac9-eede433420ee', 11.11])]

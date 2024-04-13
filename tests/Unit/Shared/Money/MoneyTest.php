@@ -28,4 +28,70 @@ final class MoneyTest extends TestCase
 
         new Money(Decimal::fromFloat($amount));
     }
+
+    #[TestWith([1.0, 1.0, '2.00'])]
+    #[TestWith([2.0, 2.0, '4.00'])]
+    public function testPlus(float $left, float $right, string $expected): void
+    {
+        $this->assertEquals(
+            $expected,
+            (string) (new Money(Decimal::fromFloat($left)))->plus(new Money(Decimal::fromFloat($right))),
+        );
+    }
+
+    #[TestWith([1.0, 3, '3.00'])]
+    #[TestWith([2.0, 4, '8.00'])]
+    public function testMultiplyBy(float $left, int $multiplyBy, string $expected): void
+    {
+        $this->assertEquals(
+            $expected,
+            (string) (new Money(Decimal::fromFloat($left)))->multiplyBy($multiplyBy),
+        );
+    }
+
+    public function testMultiplyByNegativeFails(): void
+    {
+        $this->expectException(MoneyAmountMustNotBeNegative::class);
+
+        (new Money(Decimal::fromFloat(5.0)))->multiplyBy(-5);
+    }
+
+    #[TestWith([1.0, 2.0, false])]
+    #[TestWith([2.0, 1.0, true])]
+    #[TestWith([2.0, 2.0, false])]
+    public function testIsGreaterThen(float $left, float $right, bool $expected): void
+    {
+        $this->assertEquals(
+            $expected,
+            (new Money(Decimal::fromFloat($left)))->isGreaterThen(new Money(Decimal::fromFloat($right))),
+        );
+    }
+
+    #[TestWith([1.0, 1.0, '0.00'])]
+    #[TestWith([2.0, 2.0, '0.00'])]
+    #[TestWith([3.0, 1.0, '2.00'])]
+    public function testMinus(float $left, float $right, string $expected): void
+    {
+        $this->assertEquals(
+            $expected,
+            (string) (new Money(Decimal::fromFloat($left)))->minus(new Money(Decimal::fromFloat($right))),
+        );
+    }
+
+    public function testMinusOverNegativeFails(): void
+    {
+        $this->expectException(MoneyAmountMustNotBeNegative::class);
+
+        (new Money(Decimal::fromFloat(5.0)))->minus(new Money(Decimal::fromFloat(10.0)));
+    }
+
+    #[TestWith([1.0, 1.0, true])]
+    #[TestWith([1.0, 2.0, false])]
+    public function testEquals(float $left, float $right, bool $expected): void
+    {
+        $this->assertEquals(
+            $expected,
+            (new Money(Decimal::fromFloat($left)))->equals(new Money(Decimal::fromFloat($right))),
+        );
+    }
 }

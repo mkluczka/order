@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Iteo\Customer\Domain\ValueObject\Order\OrderItem;
 
 use Iteo\Customer\Domain\ValueObject\Order\OrderItem\Exception\QuantityMustByNonNegative;
+use Stringable;
 
-final readonly class Quantity implements \Stringable
+final readonly class Quantity implements Stringable
 {
     public function __construct(public int $value)
     {

@@ -11,6 +11,7 @@ use Iteo\Customer\Domain\ValueObject\Order\OrderItem\ProductId;
 use Iteo\Customer\Domain\ValueObject\Order\OrderItem\Quantity;
 use Iteo\Customer\Domain\ValueObject\Order\OrderItem\Weight;
 use Iteo\Shared\Decimal\Decimal;
+use Iteo\Shared\Money\Money;
 use Ramsey\Uuid\Uuid;
 
 final class OrderItemGenerator
@@ -41,10 +42,11 @@ final class OrderItemGenerator
         );
     }
 
-    public static function orderItem(int $quantity, float $weight = 55.5): OrderItem
+    public static function orderItem(int $quantity = 1, float $weight = 55.5, float $price = 12.34): OrderItem
     {
         return new OrderItem(
             new ProductId(Uuid::uuid4()->toString()),
+            new Money(Decimal::fromFloat($price)),
             new Weight(Decimal::fromFloat($weight)),
             new Quantity($quantity),
         );
@@ -60,6 +62,21 @@ final class OrderItemGenerator
 
         foreach ($items as $item) {
             $orderItems[] = self::orderItem($item[1], $item[0]);
+        }
+
+        return self::order($orderItems);
+    }
+
+    /**
+     * @param array{0: float, 1: int}[] $items
+     * @return Order
+     */
+    public static function orderWithPriceAndQuantities(array $items): Order
+    {
+        $orderItems = [];
+
+        foreach ($items as $item) {
+            $orderItems[] = self::orderItem($item[1], price: $item[0]);
         }
 
         return self::order($orderItems);

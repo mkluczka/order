@@ -6,6 +6,8 @@ namespace Tests\Unit\Customer\Domain\ValueObject\Order;
 
 use Iteo\Customer\Domain\ValueObject\Order\Exception\OrderSizeTooSmall;
 use Iteo\Customer\Domain\ValueObject\Order\Exception\OrderWeightTooBig;
+use Iteo\Shared\Decimal\Decimal;
+use Iteo\Shared\Money\Money;
 use Monolog\Test\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Utils\OrderItemGenerator as Items;
@@ -19,7 +21,7 @@ final class OrderTest extends TestCase
     public function testOrderWithInvalidSize(array $itemQuantities, int $expectedQuantity): void
     {
         $this->expectException(OrderSizeTooSmall::class);
-        $this->expectExceptionMessageMatches("/$expectedQuantity given/");
+        $this->expectExceptionMessageMatches("$expectedQuantity given");
         $this->expectExceptionMessageMatches('/at least 5 required/');
 
         Items::orderWithItemQuantities($itemQuantities);
@@ -74,6 +76,45 @@ final class OrderTest extends TestCase
                     [1.0, 12_001],
                 ],
                 24_002,
+            ],
+        ];
+    }
+
+    /**
+     * @param array<array{0: float, 1: int}> $items
+     */
+    #[DataProvider('provideCalculateOrderPriceOnCreate')]
+    public function testCalculateOrderPriceOnCreate(array $items, float $expectedPrice): void
+    {
+        $sut = Items::orderWithPriceAndQuantities($items);
+
+        $this->assertTrue(
+            (new Money(Decimal::fromFloat($expectedPrice)))->equals($sut->price),
+        );
+    }
+
+    /**
+     * @return array{0: array<array{0: float, 1: int}>, 1: int}[]
+     */
+    public static function provideCalculateOrderPriceOnCreate(): array
+    {
+        return [
+            [[[1.0, 6]], 6],
+            [[[2.0, 6]], 12],
+            [
+                [
+                    [1.0, 5],
+                    [1.0, 6],
+                ],
+                11,
+            ],
+            [
+                [
+                    [1.0, 4],
+                    [2.0, 5],
+                    [3.0, 6],
+                ],
+                32,
             ],
         ];
     }
