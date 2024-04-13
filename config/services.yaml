@@ -22,13 +22,13 @@ services:
           name: create_client
           priority: 150
 
-  Iteo\Customer\Application\Command\CreateCustomer\CreateCustomerHandler: ~
-  Iteo\Customer\Application\Command\PlaceOrder\PlaceOrderHandler: ~
-
-  Iteo\Customer\Domain\Persistence\CustomerRepository: ~
-  Iteo\Customer\Domain\Persistence\CustomerStateRepository: '@App\Repository\CustomerEntityRepository'
-
   Iteo\Shared\DomainEvent\DomainEventsDispatcher: ~
 
-  Iteo\Customer\Domain\Specification\CustomerIdWasUsed: '@App\Customer\ORMCustomerIdWasUsed'
-  Iteo\Customer\Domain\Specification\OrderIdWasUsed: '@App\Customer\ORMOrderIdWasUsed'
+  Iteo\Client\Application\Command\CreateClient\CreateClientHandler: ~
+  Iteo\Client\Application\Command\PlaceOrder\PlaceOrderHandler: ~
+
+  Iteo\Client\Domain\Specification\ClientIdWasUsed: '@App\Client\ORMClientIdWasUsed'
+  Iteo\Client\Domain\Specification\OrderIdWasUsed: '@App\Client\ORMOrderIdWasUsed'
+
+  Iteo\Client\Domain\Persistence\ClientRepository: ~
+  Iteo\Client\Domain\Persistence\ClientStateRepository: '@App\Repository\ClientEntityRepository'

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use Iteo\Customer\Domain\ValueObject\Order\OrderId;
+use Iteo\Client\Domain\ValueObject\Order\OrderId;
 
 #[Entity(repositoryClass: OrderEntityRepository::class)]
 #[Table(name: '`orders`')]
@@ -18,13 +18,13 @@ class OrderEntity
     #[Id, Column(type: Types::GUID)]
     public string $id;
 
-    #[ManyToOne(CustomerEntity::class, cascade: ['persist'], inversedBy: 'orders')]
-    public CustomerEntity $customer;
+    #[ManyToOne(ClientEntity::class, cascade: ['persist'], inversedBy: 'orders')]
+    public ClientEntity $client;
 
-    public function __construct(string $id, CustomerEntity $customer)
+    public function __construct(string $id, ClientEntity $clientEntity)
     {
         $this->id = $id;
-        $this->customer = $customer;
+        $this->client = $clientEntity;
     }
 
     public function orderId(): OrderId

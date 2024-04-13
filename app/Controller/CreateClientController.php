@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Request\CreateClientRequest;
-use Iteo\Customer\Application\Command\CreateCustomer\CreateCustomer;
+use Iteo\Client\Application\Command\CreateClient\CreateClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
@@ -25,7 +25,7 @@ final readonly class CreateClientController
         CreateClientRequest $request
     ): Response {
         $this->messageBus->dispatch(
-            new CreateCustomer(
+            new CreateClient(
                 (string) $request->clientId,
                 (float) $request->balance,
             )

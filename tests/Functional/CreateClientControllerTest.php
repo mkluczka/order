@@ -22,7 +22,7 @@ final class CreateClientControllerTest extends WebTestCase
         $this->http = self::createClient();
     }
 
-    public function testCreateCustomer(): void
+    public function testCreateClient(): void
     {
         $clientId = '6fbf322e-cdea-4bc9-9cd5-fceeb2cdec8c';
         $initialBalance = 12.34;

@@ -1,12 +1,13 @@
 openapi: "3.0.2"
 info:
-  title: ITEO Customer service
+  title: ITEO Client service
   version: "1.0"
 servers:
   - url: http://localhost:9876/
 paths:
-  /customers:
+  /clients:
     post:
+      description: "Create new client"
       requestBody:
         required: true
         content:
@@ -25,4 +26,4 @@ paths:
 
       responses:
         204:
-          description: Customer created
+          description: Client created

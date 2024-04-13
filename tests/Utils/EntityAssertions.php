@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Utils;
 
-use App\Entity\CustomerEntity;
+use App\Entity\ClientEntity;
 use App\Entity\OrderEntity;
-use App\Repository\CustomerEntityRepository;
+use App\Repository\ClientEntityRepository;
 use App\Repository\OrderEntityRepository;
 use PHPUnit\Framework\Assert;
 
@@ -14,33 +14,33 @@ trait EntityAssertions
 {
     protected function assertNoClientInDatabase(): void
     {
-        $result = $this->getCustomerEntityRepository()->findAll();
+        $result = $this->getClientEntityRepository()->findAll();
 
         Assert::assertEmpty($result);
     }
 
-    protected function assertClientInDatabase(string $customerId, float $expectedBalance): void
+    protected function assertClientInDatabase(string $clientId, float $expectedBalance): void
     {
-        $entity = $this->getCustomerEntityRepository()->findById($customerId);
+        $entity = $this->getClientEntityRepository()->findById($clientId);
 
-        Assert::assertInstanceOf(CustomerEntity::class, $entity);
+        Assert::assertInstanceOf(ClientEntity::class, $entity);
         Assert::assertSame($expectedBalance, $entity->balance);
     }
 
-    private function getCustomerEntityRepository(): CustomerEntityRepository
+    private function getClientEntityRepository(): ClientEntityRepository
     {
-        return self::getContainer()->get(CustomerEntityRepository::class);
+        return self::getContainer()->get(ClientEntityRepository::class);
     }
 
     /**
-     * @param array<string> $customerOrdersIds
+     * @param array<string> $clientOrderIds
      */
-    protected function assertOrdersInDatabase(string $customerId, array $customerOrdersIds): void
+    protected function assertOrdersInDatabase(string $clientId, array $clientOrderIds): void
     {
-        $result = $this->getOrderEntityRepository()->findBy(['customer' => $customerId]);
+        $result = $this->getOrderEntityRepository()->findBy(['client' => $clientId]);
 
-        Assert::assertCount(count($customerOrdersIds), $result);
-        Assert::assertEquals($customerOrdersIds, array_map(fn (OrderEntity $order) => $order->id, $result));
+        Assert::assertCount(count($clientOrderIds), $result);
+        Assert::assertEquals($clientOrderIds, array_map(fn (OrderEntity $order) => $order->id, $result));
     }
 
     private function getOrderEntityRepository(): OrderEntityRepository

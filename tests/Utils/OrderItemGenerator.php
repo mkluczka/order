@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Utils;
 
-use Iteo\Customer\Domain\ValueObject\Order\Order;
-use Iteo\Customer\Domain\ValueObject\Order\OrderId;
-use Iteo\Customer\Domain\ValueObject\Order\OrderItem\OrderItem;
-use Iteo\Customer\Domain\ValueObject\Order\OrderItem\ProductId;
-use Iteo\Customer\Domain\ValueObject\Order\OrderItem\Quantity;
-use Iteo\Customer\Domain\ValueObject\Order\OrderItem\Weight;
+use Iteo\Client\Domain\ValueObject\Order\Order;
+use Iteo\Client\Domain\ValueObject\Order\OrderId;
+use Iteo\Client\Domain\ValueObject\Order\OrderItem\OrderItem;
+use Iteo\Client\Domain\ValueObject\Order\OrderItem\ProductId;
+use Iteo\Client\Domain\ValueObject\Order\OrderItem\Quantity;
+use Iteo\Client\Domain\ValueObject\Order\OrderItem\Weight;
 use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Money;
 use Ramsey\Uuid\Uuid;
