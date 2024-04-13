@@ -8,8 +8,8 @@ use Iteo\Customer\Domain\ValueObject\CustomerId;
 
 final class CustomerIdIsAlreadyUsed extends \DomainException
 {
-    public function __construct(CustomerId $customerId)
+    public function __construct(CustomerId $orderId)
     {
-        parent::__construct("Customer id ($customerId) is already used");
+        parent::__construct("Customer id ($orderId) is already used");
     }
 }

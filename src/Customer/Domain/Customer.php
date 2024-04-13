@@ -11,6 +11,7 @@ use Iteo\Customer\Domain\Event\OrderPlaced;
 use Iteo\Customer\Domain\Exception\InsufficentFunds;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
 use Iteo\Customer\Domain\ValueObject\Order\Order;
+use Iteo\Customer\Domain\ValueObject\Order\OrderId;
 use Iteo\Shared\DomainEvent\DomainEventsTrait;
 use Iteo\Shared\Money\Money;
 
@@ -20,10 +21,11 @@ final class Customer
     use CustomerStateTrait;
 
     private Money $balance;
+    /** @var array<OrderId> */
+    private array $orders = [];
 
-    public function __construct(
-        private readonly CustomerId $id,
-    ) {
+    public function __construct(private readonly CustomerId $id)
+    {
     }
 
     public static function create(CustomerId $customerId, Money $initialBalance): self
@@ -43,12 +45,17 @@ final class Customer
 
     public function placeOrder(Order $order): void
     {
+        if (in_array($order->id, $this->orders, true)) {
+            return;
+        }
+
         if ($order->price->isGreaterThen($this->balance)) {
             throw new InsufficentFunds($order->price, $this->balance);
         }
 
         $previousBalance = $this->balance;
         $this->balance = $this->balance->minus($order->price);
+        $this->orders[] = $order->id;
 
         $this->recordEvent(
             new OrderPlaced(

@@ -20,4 +20,5 @@ services:
 
     Iteo\Shared\DomainEvent\DomainEventsDispatcher: ~
 
-    Iteo\Customer\Domain\Specification\CustomerIdIsUnique: '@App\Customer\ORMCustomerIdIsUnique'
+    Iteo\Customer\Domain\Specification\CustomerIdWasUsed: '@App\Customer\ORMCustomerIdWasUsed'
+    Iteo\Customer\Domain\Specification\OrderIdWasUsed: '@App\Customer\ORMOrderIdWasUsed'

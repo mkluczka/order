@@ -13,6 +13,7 @@ trait CustomerStateTrait
         return new CustomerState(
             $this->id,
             $this->balance,
+            $this->orders,
         );
     }
 
@@ -20,6 +21,7 @@ trait CustomerStateTrait
     {
         $customer = new Customer($state->customerId);
         $customer->balance = $state->balance;
+        $customer->orders = $state->orders;
 
         return $customer;
     }

@@ -17,7 +17,7 @@ infection:
 
 check: ecs_fix phpstan test
 
-resetdb: reset_test_db
+reset_dev_db:
 	bin/console doctrine:database:drop -f
 	bin/console doctrine:database:create
 	bin/console doctrine:migrations:migrate --no-interaction
@@ -26,3 +26,5 @@ reset_test_db:
 	bin/console doctrine:database:drop -f -etest
 	bin/console doctrine:database:create -etest
 	bin/console doctrine:migrations:migrate --no-interaction -etest
+
+resetdb: reset_dev_db reset_test_db

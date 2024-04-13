@@ -7,11 +7,11 @@ namespace Tests\Integration\Customer\Command;
 use Iteo\Customer\Application\Command\CreateCustomer\CreateCustomer;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Tests\IntegrationTestCase;
-use Tests\Utils\CustomerEntityAssertions;
+use Tests\Utils\EntityAssertions;
 
 final class CreateCustomerHandlerTest extends IntegrationTestCase
 {
-    use CustomerEntityAssertions;
+    use EntityAssertions;
 
     public function testCreateCustomer(): void
     {

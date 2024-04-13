@@ -36,7 +36,8 @@ final class CustomerRepositoryTest extends TestCase
     {
         $customerState = new CustomerState(
             new CustomerId('5adb7472-1a30-425b-b755-892805ba2065'),
-            new Money(Decimal::fromFloat(11.11))
+            new Money(Decimal::fromFloat(11.11)),
+            [],
         );
         $customer = Customer::restore($customerState);
 

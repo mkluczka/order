@@ -39,12 +39,14 @@ final class CustomerPlaceOrderTest extends TestCase
             new CustomerState(
                 $customerId,
                 $initialBalance,
+                [],
             )
         );
 
         $customer->placeOrder($order);
 
         $this->assertEquals($expectedEvents, $customer->collectEvents());
+        $this->assertEquals([$orderId], $customer->save()->orders);
     }
 
     public function testPlaceOrderFreeOfCharge(): void
@@ -62,12 +64,14 @@ final class CustomerPlaceOrderTest extends TestCase
             new CustomerState(
                 $customerId,
                 $initialBalance,
+                [],
             )
         );
 
         $customer->placeOrder($order);
 
         $this->assertEquals($expectedEvents, $customer->collectEvents());
+        $this->assertEquals([$orderId], $customer->save()->orders);
     }
 
     public function testPlaceOrderOnInsufficientFunds(): void
@@ -86,11 +90,45 @@ final class CustomerPlaceOrderTest extends TestCase
             new CustomerState(
                 $customerId,
                 $initialBalance,
+                [],
             )
         );
 
         $customer->placeOrder($order);
 
         $this->assertEquals([], $customer->collectEvents());
+        $this->assertEquals([], $customer->save()->orders);
+    }
+
+    public function testAddingSameOrderSecondTime(): void
+    {
+        $customerId = new CustomerId('e4f71eac-54c6-4dc9-972f-3429529b15bb');
+        $initialBalance = Money::fromFloat(999);
+
+        $orderId = new OrderId('4c56a7a6-329b-42ca-b5d8-ae65fb35770f');
+        $orderItems = [
+            OrderItemGenerator::orderItem(5, 2, 3),
+            OrderItemGenerator::orderItem(5, 3, 4),
+        ];
+        $order = new Order($orderId, $orderItems);
+
+        $expectedEvents = [
+            new OrderPlaced($orderId, $customerId, $orderItems),
+            new CustomerCharged($customerId, $initialBalance, Money::fromFloat(964)),
+        ];
+
+        $customer = Customer::restore(
+            new CustomerState(
+                $customerId,
+                $initialBalance,
+                [],
+            )
+        );
+
+        $customer->placeOrder($order);
+        $customer->placeOrder($order);
+
+        $this->assertEquals($expectedEvents, $customer->collectEvents());
+        $this->assertEquals([$orderId], $customer->save()->orders);
     }
 }

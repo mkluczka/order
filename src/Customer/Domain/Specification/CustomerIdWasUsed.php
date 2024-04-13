@@ -6,7 +6,7 @@ namespace Iteo\Customer\Domain\Specification;
 
 use Iteo\Customer\Domain\ValueObject\CustomerId;
 
-interface CustomerIdIsUnique
+interface CustomerIdWasUsed
 {
     public function isSatisfiedBy(CustomerId $customerId): bool;
 }

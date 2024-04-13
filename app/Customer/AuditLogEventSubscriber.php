@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Customer;
 
-use App\Entity\AuditLog;
+use App\Entity\AuditLogEntity;
 use App\Repository\AuditLogEntityRepository;
 use Iteo\Customer\Domain\Event\CustomerCreated;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -24,7 +24,7 @@ final readonly class AuditLogEventSubscriber implements EventSubscriberInterface
 
     public function onCustomerCreated(CustomerCreated $event): void
     {
-        $auditLog = new AuditLog();
+        $auditLog = new AuditLogEntity();
         $auditLog->message = '[event] CustomerCreated';
         $auditLog->payload = [
             'customerId' => (string) $event->customerId,

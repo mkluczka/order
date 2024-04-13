@@ -8,8 +8,8 @@ use Iteo\Customer\Domain\ValueObject\CustomerId;
 
 final class CustomerNotFound extends \DomainException
 {
-    public function __construct(CustomerId $customerId)
+    public function __construct(CustomerId $orderId)
     {
-        parent::__construct("Customer with id ($customerId) was not found");
+        parent::__construct("Customer with id ($orderId) was not found");
     }
 }
