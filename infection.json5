@@ -15,6 +15,16 @@
             "ignore": [
                 "Iteo\\Shared\\DomainEvent\\DomainEventsTrait"
             ]
+        },
+        "IncrementInteger": {
+            "ignore": [
+                "Iteo\\Customer\\Domain\\ValueObject\\Order\\Order::validateOrderWeight"
+            ]
+        },
+        "UnwrapArrayReduce": {
+            "ignore": [
+                "Iteo\\Customer\\Domain\\ValueObject\\Order\\Order::validateOrderSize"
+            ]
         }
     }
 }

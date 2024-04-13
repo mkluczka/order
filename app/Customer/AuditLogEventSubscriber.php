@@ -28,7 +28,7 @@ final readonly class AuditLogEventSubscriber implements EventSubscriberInterface
         $auditLog->message = '[event] CustomerCreated';
         $auditLog->payload = [
             'customerId' => (string) $event->customerId,
-            'initialBalance' => $event->initialBalance->amount,
+            'initialBalance' => $event->initialBalance->amount->asFloat(),
         ];
 
         $this->auditLogRepository->save($auditLog);

@@ -7,6 +7,7 @@ namespace Tests\Unit\Customer\Domain;
 use Iteo\Customer\Domain\Customer;
 use Iteo\Customer\Domain\Event\CustomerCreated;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
+use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +21,7 @@ final class CustomerTest extends TestCase
     public function testCreate(string $customerId, float $initialBalance): void
     {
         $customerId = new CustomerId($customerId);
-        $initialBalance = new Money($initialBalance);
+        $initialBalance = new Money(Decimal::fromFloat($initialBalance));
 
         $expectedEvents = [
             new CustomerCreated($customerId, $initialBalance),

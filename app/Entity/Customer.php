@@ -32,7 +32,7 @@ class Customer
     {
         $entity = new self();
         $entity->uuid = (string) $state->customerId;
-        $entity->balance = $state->balance->amount;
+        $entity->balance = $state->balance->amount->asFloat();
 
         return $entity;
     }

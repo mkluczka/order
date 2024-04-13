@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Iteo\Shared\Money;
 
+use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Exception\MoneyAmountMustNotBeNegative;
 
 final readonly class Money implements \Stringable
 {
-    public function __construct(public float $amount)
+    public function __construct(public Decimal $amount)
     {
-        if ($amount < 0) {
+        if ($amount->isLessThen(Decimal::fromFloat(0))) {
             throw new MoneyAmountMustNotBeNegative($this->amount);
         }
     }

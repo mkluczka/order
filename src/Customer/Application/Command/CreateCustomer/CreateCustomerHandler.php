@@ -7,6 +7,7 @@ namespace Iteo\Customer\Application\Command\CreateCustomer;
 use Iteo\Customer\Domain\Customer;
 use Iteo\Customer\Domain\CustomerRepository;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
+use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Money;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -20,7 +21,7 @@ final readonly class CreateCustomerHandler
     public function __invoke(CreateCustomer $command): void
     {
         $customerId = new CustomerId($command->customerId);
-        $initialBalance = new Money($command->initialBalance);
+        $initialBalance = new Money(Decimal::fromFloat($command->initialBalance));
 
         $customer = Customer::create($customerId, $initialBalance);
 

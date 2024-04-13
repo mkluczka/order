@@ -10,6 +10,7 @@ use Iteo\Customer\Domain\CustomerState\CustomerState;
 use Iteo\Customer\Domain\CustomerState\CustomerStateRepository;
 use Iteo\Customer\Domain\Event\CustomerCreated;
 use Iteo\Customer\Domain\ValueObject\CustomerId;
+use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;
 use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,7 +36,7 @@ final class CustomerRepositoryTest extends TestCase
     {
         $customerState = new CustomerState(
             new CustomerId('5adb7472-1a30-425b-b755-892805ba2065'),
-            new Money(11.11)
+            new Money(Decimal::fromFloat(11.11))
         );
         $customer = Customer::restore($customerState);
 
@@ -50,7 +51,7 @@ final class CustomerRepositoryTest extends TestCase
     public function testDomainEventsAreDispatched(): void
     {
         $customerId = new CustomerId('5adb7472-1a30-425b-b755-892805ba2065');
-        $initialBalance = new Money(11.11);
+        $initialBalance = new Money(Decimal::fromFloat(11.11));
 
         $customer = Customer::create($customerId, $initialBalance);
 
