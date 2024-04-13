@@ -20,7 +20,7 @@ final class CreateCustomerHandlerTest extends IntegrationTestCase
 
         $this->dispatchCommand(new CreateCustomer($customerId, $initialBalance));
 
-        $this->assertCustomerInDatabase($customerId, $initialBalance);
+        $this->assertClientInDatabase($customerId, $initialBalance);
     }
 
     public function testCannotCreateSecondCustomerOnSameId(): void

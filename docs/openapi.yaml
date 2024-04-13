@@ -1,0 +1,28 @@
+openapi: "3.0.2"
+info:
+  title: ITEO Customer service
+  version: "1.0"
+servers:
+  - url: http://localhost:9876/
+paths:
+  /customers:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clientId:
+                  type: string
+                  format: uuid
+                  example: 2175b77e-a790-4dd2-b963-554a3b9f7214
+                balance:
+                  type: number
+                  format: float
+                  example: 12.34
+
+      responses:
+        204:
+          description: Customer created

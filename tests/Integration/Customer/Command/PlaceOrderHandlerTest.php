@@ -39,7 +39,7 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
             )
         );
 
-        $this->assertCustomerInDatabase($customerId, $expectedBalance);
+        $this->assertClientInDatabase($customerId, $expectedBalance);
         $this->assertOrdersInDatabase($customerId, [$orderId]);
     }
 
@@ -89,7 +89,7 @@ final class PlaceOrderHandlerTest extends IntegrationTestCase
         $this->dispatchCommand(new PlaceOrder($order2Id, $customerId, $orderItems));
         $this->dispatchCommand(new PlaceOrder($order3Id, $customerId, $orderItems));
 
-        $this->assertCustomerInDatabase($customerId, $expectedBalance);
+        $this->assertClientInDatabase($customerId, $expectedBalance);
         $this->assertOrdersInDatabase($customerId, [$order1Id, $order2Id, $order3Id]);
     }
 

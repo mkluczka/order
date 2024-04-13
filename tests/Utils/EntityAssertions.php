@@ -12,7 +12,14 @@ use PHPUnit\Framework\Assert;
 
 trait EntityAssertions
 {
-    protected function assertCustomerInDatabase(string $customerId, float $expectedBalance): void
+    protected function assertNoClientInDatabase(): void
+    {
+        $result = $this->getCustomerEntityRepository()->findAll();
+
+        Assert::assertEmpty($result);
+    }
+
+    protected function assertClientInDatabase(string $customerId, float $expectedBalance): void
     {
         $entity = $this->getCustomerEntityRepository()->findById($customerId);
 
@@ -33,7 +40,7 @@ trait EntityAssertions
         $result = $this->getOrderEntityRepository()->findBy(['customer' => $customerId]);
 
         Assert::assertCount(count($customerOrdersIds), $result);
-        Assert::assertequals($customerOrdersIds, array_map(fn (OrderEntity $order) => $order->id, $result));
+        Assert::assertEquals($customerOrdersIds, array_map(fn (OrderEntity $order) => $order->id, $result));
     }
 
     private function getOrderEntityRepository(): OrderEntityRepository
