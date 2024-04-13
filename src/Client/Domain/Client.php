@@ -8,6 +8,7 @@ use Iteo\Client\Domain\ClientState\ClientStateTrait;
 use Iteo\Client\Domain\Event\ClientBlocked;
 use Iteo\Client\Domain\Event\ClientCharged;
 use Iteo\Client\Domain\Event\ClientCreated;
+use Iteo\Client\Domain\Event\ClientToppedUp;
 use Iteo\Client\Domain\Event\OrderPlaced;
 use Iteo\Client\Domain\Exception\CannotPlaceOrderOnBlockedClient;
 use Iteo\Client\Domain\Exception\InsufficentFunds;
@@ -94,5 +95,23 @@ final class Client
         $this->isBlocked = true;
 
         $this->recordEvent(new ClientBlocked($this->id));
+    }
+
+    public function topUp(Money $additionalAmount): void
+    {
+        if ($additionalAmount->equals(Money::fromFloat(0))) {
+            return;
+        }
+
+        $previousBalance = $this->balance;
+        $this->balance = $this->balance->plus($additionalAmount);
+
+        $this->recordEvent(
+            new ClientToppedUp(
+                $this->id,
+                $previousBalance,
+                $this->balance,
+            )
+        );
     }
 }

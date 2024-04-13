@@ -33,4 +33,22 @@ final class ClientBlockTest extends TestCase
         $this->assertEquals($expectedEvents, $sut->collectEvents());
         $this->assertTrue($sut->save()->isBlocked);
     }
+
+    public function testBlockDoesNothingOnBlockedClient(): void
+    {
+        $clientId = new ClientId('ef6343d5-f78d-4fe8-b896-a876abb6a3e0');
+
+        $sut = Client::restore(
+            new ClientState(
+                $clientId,
+                Money::fromFloat(13.13),
+                [],
+                true
+            )
+        );
+
+        $sut->block();
+
+        $this->assertEquals([], $sut->collectEvents());
+    }
 }
