@@ -13,7 +13,6 @@ trait ClientStateTrait
         return new ClientState(
             $this->id,
             $this->balance,
-            $this->orders,
             $this->isBlocked,
         );
     }
@@ -22,7 +21,6 @@ trait ClientStateTrait
     {
         $client = new Client($state->clientId);
         $client->balance = $state->balance;
-        $client->orders = $state->orders;
         $client->isBlocked = $state->isBlocked;
 
         return $client;

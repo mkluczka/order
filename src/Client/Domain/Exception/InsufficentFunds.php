@@ -8,8 +8,8 @@ use Iteo\Shared\Money\Money;
 
 final class InsufficentFunds extends \DomainException
 {
-    public function __construct(Money $clientPrice, Money $clientBalance)
+    public function __construct(Money $chargeAmount, Money $clientBalance)
     {
-        parent::__construct("Order price ($clientPrice) is greater than client balance ($clientBalance)");
+        parent::__construct("Charge amount ($chargeAmount) is greater than client balance ($clientBalance)");
     }
 }

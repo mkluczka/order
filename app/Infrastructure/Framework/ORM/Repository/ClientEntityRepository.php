@@ -9,7 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Iteo\Client\Domain\ClientState\ClientState;
 use Iteo\Client\Domain\Persistence\ClientStateRepository;
-use Iteo\Client\Domain\ValueObject\ClientId;
+use Iteo\Shared\ClientId;
+use Iteo\Shared\Money\Money;
 
 /**
  * @extends ServiceEntityRepository<ClientEntity>
@@ -21,11 +22,22 @@ use Iteo\Client\Domain\ValueObject\ClientId;
  */
 final class ClientEntityRepository extends ServiceEntityRepository implements ClientStateRepository
 {
-    public function __construct(
-        ManagerRegistry $registry,
-        private readonly OrderEntityRepository $orderEntityRepository,
-    ) {
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, ClientEntity::class);
+    }
+
+    public function save(ClientState $clientState): void
+    {
+        $clientId = (string) $clientState->clientId;
+
+        $clientEntity = $this->find($clientId) ?? new ClientEntity();
+
+        $clientEntity->id = $clientId;
+        $clientEntity->balance = $clientState->balance->amount->asFloat();
+        $clientEntity->isBlocked = $clientState->isBlocked;
+
+        $this->getEntityManager()->persist($clientEntity);
     }
 
     public function findById(ClientId|string $clientId): ?ClientEntity
@@ -33,27 +45,16 @@ final class ClientEntityRepository extends ServiceEntityRepository implements Cl
         return $this->find((string) $clientId);
     }
 
-    public function save(ClientState $clientState): void
-    {
-        $entityManager = $this->getEntityManager();
-
-        $clientEntity = $this->findById($clientState->clientId);
-
-        if (null === $clientEntity) {
-            $clientEntity = ClientEntity::fromClientState($clientState);
-        } else {
-            $clientEntity->applyClientState($clientState);
-        }
-
-        $this->orderEntityRepository->applyOrders($clientEntity, $clientState);
-
-        $entityManager->persist($clientEntity);
-    }
-
     public function findByClientId(ClientId $clientId): ?ClientState
     {
-        $entity = $this->findById($clientId);
+        $entity = $this->find((string) $clientId);
 
-        return $entity?->asClientState();
+        return $entity
+            ? new ClientState(
+                new ClientId($entity->id),
+                Money::fromFloat($entity->balance),
+                $entity->isBlocked,
+            )
+            : null;
     }
 }

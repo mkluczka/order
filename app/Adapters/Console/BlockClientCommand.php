@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Adapters\Console;
 
-use Iteo\Client\Application\BlockClient\BlockClient;
+use Iteo\Shared\Queue\Event\ClientBlockedDto;
+use Iteo\Shared\Queue\QueueBus;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 final class BlockClientCommand extends Command
 {
-    public function __construct(private readonly MessageBusInterface $messageBus)
+    public function __construct(private readonly QueueBus $queueBus)
     {
         parent::__construct('app:queue:block-client');
     }
@@ -27,7 +27,7 @@ final class BlockClientCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->messageBus->dispatch(new BlockClient($input->getArgument('clientId')));
+        $this->queueBus->dispatch(new ClientBlockedDto($input->getArgument('clientId')));
 
         $output->writeln('<info>OK</info>');
 

@@ -63,7 +63,7 @@ final class MoneyTest extends TestCase
     {
         $this->assertEquals(
             $expected,
-            (new Money(Decimal::fromFloat($left)))->isGreaterThen(new Money(Decimal::fromFloat($right))),
+            (new Money(Decimal::fromFloat($left)))->isGreaterThan(new Money(Decimal::fromFloat($right))),
         );
     }
 

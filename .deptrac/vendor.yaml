@@ -1,0 +1,66 @@
+deptrac:
+  layers:
+    - name: symfony/messenger
+      collectors:
+        - type: className
+          value: Symfony\\Component\\Messenger\\.*
+
+    - name: symfony/console
+      collectors:
+        - type: className
+          value: Symfony\\Component\\Console\\.*
+
+    - name: symfony/validator
+      collectors:
+        - type: className
+          value: Symfony\\Component\\Validator\\.*
+
+    - name: symfony/event-dispatcher
+      collectors:
+        - type: className
+          value: Symfony\\Component\\EventDispatcher\\.*
+
+    - name: symfony/http
+      collectors:
+        - type: className
+          value: Symfony\\Component\\HttpFoundation\\.*
+        - type: className
+          value: Symfony\\Component\\Routing\\.*
+        - type: className
+          value: Symfony\\Component\\HttpKernel\\.*
+
+    - name: doctrine
+      collectors:
+        - type: className
+          value: ^Doctrine\\.*
+
+  ruleset:
+    app/Adapters:
+      - Client/Application
+      - Order/Application
+      - symfony/http
+      - symfony/console
+      - symfony/validator
+
+    app/Infrastructure:
+      - Client/Ports
+      - symfony/messenger
+      - symfony/validator
+      - symfony/http
+      - symfony/event-dispatcher
+      - doctrine
+
+    Client/Adapters:
+      - symfony/messenger
+
+    Client/Application:
+      - symfony/messenger
+
+    Order/Adapters:
+      - symfony/messenger
+
+    Order/Application:
+      - symfony/messenger
+
+    Order/Infrastructure:
+      - symfony/event-dispatcher

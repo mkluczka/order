@@ -6,7 +6,7 @@ namespace App\Infrastructure\Shared;
 
 use Iteo\Shared\DomainEvent\DomainEvent;
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final readonly class SymfonyDomainEventsDispatcher implements DomainEventsDispatcher
 {

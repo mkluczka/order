@@ -37,12 +37,12 @@ final readonly class Decimal implements Stringable
         return new self($this->decimalAmount + $other->decimalAmount);
     }
 
-    public function isMoreThen(self $other): bool
+    public function isGreaterThan(self $other): bool
     {
         return $this->decimalAmount > $other->decimalAmount;
     }
 
-    public function isLessThen(self $other): bool
+    public function isLessThan(self $other): bool
     {
         return $this->decimalAmount < $other->decimalAmount;
     }

@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": false,
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/dbal": "^3",
@@ -15,6 +15,7 @@
         "symfony/console": "7.0.*",
         "symfony/dotenv": "7.0.*",
         "symfony/flex": "^2",
+        "symfony/form": "7.0.*",
         "symfony/framework-bundle": "7.0.*",
         "symfony/messenger": "7.0.*",
         "symfony/monolog-bundle": "^3.10",
@@ -29,7 +30,8 @@
             "symfony/flex": true,
             "symfony/runtime": true,
             "infection/extension-installer": true,
-            "phpro/grumphp": true
+            "phpro/grumphp": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "sort-packages": true
     },
@@ -80,6 +82,8 @@
         "infection/infection": "^0.28.1",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.0",
+        "qossmic/deptrac-shim": "*",
+        "slevomat/coding-standard": "^8.15",
         "symfony/browser-kit": "7.0.*",
         "symfony/css-selector": "7.0.*",
         "symfony/maker-bundle": "^1.58",

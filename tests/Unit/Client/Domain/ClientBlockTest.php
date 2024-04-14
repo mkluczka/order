@@ -7,7 +7,7 @@ namespace Tests\Unit\Client\Domain;
 use Iteo\Client\Domain\Client;
 use Iteo\Client\Domain\ClientState\ClientState;
 use Iteo\Client\Domain\Event\ClientBlocked;
-use Iteo\Client\Domain\ValueObject\ClientId;
+use Iteo\Shared\ClientId;
 use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,6 @@ final class ClientBlockTest extends TestCase
             new ClientState(
                 $clientId,
                 Money::fromFloat(13.13),
-                [],
                 false
             )
         );
@@ -42,7 +41,6 @@ final class ClientBlockTest extends TestCase
             new ClientState(
                 $clientId,
                 Money::fromFloat(13.13),
-                [],
                 true
             )
         );

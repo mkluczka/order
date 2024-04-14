@@ -11,7 +11,7 @@ final readonly class Money implements \Stringable
 {
     public function __construct(public Decimal $amount)
     {
-        if ($amount->isLessThen(Decimal::fromFloat(0))) {
+        if ($amount->isLessThan(Decimal::fromFloat(0))) {
             throw new MoneyAmountMustNotBeNegative($this->amount);
         }
     }
@@ -31,9 +31,9 @@ final readonly class Money implements \Stringable
         return new self($this->amount->multiplyBy($value));
     }
 
-    public function isGreaterThen(self $other): bool
+    public function isGreaterThan(self $other): bool
     {
-        return $this->amount->isMoreThen($other->amount);
+        return $this->amount->isGreaterThan($other->amount);
     }
 
     public function minus(self $other): self
@@ -44,6 +44,11 @@ final readonly class Money implements \Stringable
     public function equals(self $other): bool
     {
         return $this->amount->equals($other->amount);
+    }
+
+    public function asFloat(): float
+    {
+        return $this->amount->asFloat();
     }
 
     public function __toString(): string

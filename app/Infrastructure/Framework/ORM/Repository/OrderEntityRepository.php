@@ -2,12 +2,12 @@
 
 namespace App\Infrastructure\Framework\ORM\Repository;
 
-use App\Infrastructure\Framework\ORM\Entity\ClientEntity;
 use App\Infrastructure\Framework\ORM\Entity\OrderEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
-use Iteo\Client\Domain\ClientState\ClientState;
+use Iteo\Order\Domain\OrderState\OrderState;
+use Iteo\Order\Domain\Persistence\OrderStateRepository;
+use Iteo\Shared\OrderId;
 
 /**
  * @extends ServiceEntityRepository<OrderEntity>
@@ -17,26 +17,27 @@ use Iteo\Client\Domain\ClientState\ClientState;
  * @method OrderEntity[]    findAll()
  * @method OrderEntity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class OrderEntityRepository extends ServiceEntityRepository
+final class OrderEntityRepository extends ServiceEntityRepository implements OrderStateRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, OrderEntity::class);
     }
 
-    public function applyOrders(ClientEntity $clientEntity, ClientState $state): void
+    public function save(OrderState $state): void
     {
-        $orderEntities = [];
-        foreach ($state->orders as $orderId) {
-            $orderEntity = $this->find($orderId);
-            if (null === $orderEntity) {
-                $orderEntity = new OrderEntity((string) $orderId, $clientEntity);
-                $this->getEntityManager()->persist($orderEntity);
-            }
-
-            $orderEntities[] = $orderEntity;
+        $orderEntity = $this->findByOrderId($state->orderId);
+        if (null === $orderEntity) {
+            $orderEntity = new OrderEntity();
+            $orderEntity->id = (string) $state->orderId;
+            $orderEntity->clientId = (string) $state->clientId;
         }
 
-        $clientEntity->orders = new ArrayCollection($orderEntities);
+        $this->getEntityManager()->persist($orderEntity);
+    }
+
+    private function findByOrderId(OrderId $orderId): ?OrderEntity
+    {
+        return $this->find((string) $orderId);
     }
 }

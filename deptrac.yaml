@@ -1,0 +1,159 @@
+imports:
+  - .deptrac/vendor.yaml
+
+parameters:
+
+deptrac:
+  paths:
+    - app
+    - src
+  layers:
+    # app
+    - name: app/Adapters
+      collectors:
+        - type: directory
+          value: app/Adapters
+
+    - name: app/Infrastructure
+      collectors:
+        - type: directory
+          value: app/Infrastructure
+
+    # Client
+    - name: Client/Adapters
+      collectors:
+        - type: directory
+          value: src/Client/Adapters
+
+    - name: Client/Application
+      collectors:
+        - type: directory
+          value: src/Client/Application
+
+    - name: Client/Domain
+      collectors:
+        - type: directory
+          value: src/Client/Domain
+
+    - name: Client/Infrastructure
+      collectors:
+        - type: directory
+          value: src/Client/Infrastructure
+
+    - name: Client/Ports
+      collectors:
+        - type: directory
+          value: src/Client/Ports
+
+    # Order
+    - name: Order/Adapters
+      collectors:
+        - type: directory
+          value: src/Order/Adapters
+
+    - name: Order/Application
+      collectors:
+        - type: directory
+          value: src/Order/Application
+
+    - name: Order/Domain
+      collectors:
+        - type: className
+          value: ^Iteo\\Order\\Domain\\.*
+
+    - name: Order/Infrastructure
+      collectors:
+        - type: directory
+          value: src/Order/Infrastructure
+
+    - name: Order/Ports
+      collectors:
+        - type: directory
+          value: src/Order/Ports
+
+    # Shared
+    - name: Shared
+      collectors:
+        - type: directory
+          value: src/Shared
+
+    # vendor
+    - name: symfony/messenger
+      collectors:
+        - type: className
+          value: Symfony\\Component\\Messenger\\.*
+
+    - name: symfony/console
+      collectors:
+        - type: className
+          value: Symfony\\Component\\Console\\.*
+
+    - name: symfony/validator
+      collectors:
+        - type: className
+          value: Symfony\\Component\\Validator\\.*
+
+    - name: symfony/event-dispatcher
+      collectors:
+        - type: className
+          value: Symfony\\Component\\EventDispatcher\\.*
+
+    - name: symfony/http
+      collectors:
+        - type: className
+          value: Symfony\\Component\\HttpFoundation\\.*
+        - type: className
+          value: Symfony\\Component\\Routing\\.*
+        - type: className
+          value: Symfony\\Component\\HttpKernel\\.*
+
+    - name: doctrine
+      collectors:
+        - type: className
+          value: ^Doctrine\\.*
+
+  ruleset:
+    app/Adapters:
+      - Shared
+
+    app/Infrastructure:
+      - Client/Domain
+      - Order/Domain
+      - Shared
+
+    Client/Adapters:
+      - Client/Application
+      - Shared
+
+    Client/Application:
+      - Client/Domain
+      - Shared
+
+    Client/Domain:
+      - Shared
+
+    Client/Infrastructure:
+      - Shared
+
+    Client/Ports:
+      - Shared
+
+    Order/Adapters:
+      - Order/Application
+      - Shared
+
+    Order/Application:
+      - Order/Domain
+      - Client/Ports
+      - Shared
+
+    Order/Domain:
+      - Shared
+
+    Order/Infrastructure:
+      - Order/Domain
+      - Shared
+
+    Order/Ports: ~
+
+    Shared: ~

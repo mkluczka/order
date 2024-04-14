@@ -2,14 +2,22 @@
   "$schema": "vendor/infection/infection/resources/schema.json",
   "source": {
     "directories": [
-      "app",
-      "src"
+      "src/Client/Domain",
+      "src/Order/Domain"
     ]
   },
   "logs": {
     "text": "infection.log"
   },
   "mutators": {
-    "@default": true
-  }
+    "@default": true,
+    "MethodCallRemoval": {
+      "ignore": [
+        "Iteo\\Client\\Domain\\Exception\\*",
+        "Iteo\\Order\\Domain\\Exception\\*"
+      ]
+    }
+  },
+  "initialTestsPhpOptions": "-d zend_extension=xdebug.so",
+  "testFrameworkOptions": "--testsuite=Unit",
 }

@@ -6,7 +6,7 @@ namespace Iteo\Client\Domain\Persistence;
 
 use Iteo\Client\Domain\Client;
 use Iteo\Client\Domain\Exception\ClientNotFound;
-use Iteo\Client\Domain\ValueObject\ClientId;
+use Iteo\Shared\ClientId;
 use Iteo\Shared\DomainEvent\DomainEventsDispatcher;
 
 final readonly class ClientRepository

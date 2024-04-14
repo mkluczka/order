@@ -16,21 +16,28 @@ services:
     resource: '../app/Adapters/Http/Controller/'
     tags: [ 'controller.service_arguments' ]
 
-  App\Adapters\Http\Request\CreateClientRequestValueResolver:
-    tags:
-      - controller.argument_value_resolver:
-          name: create_client
-          priority: 150
+  adapters_queue:
+    namespace: Iteo\
+    resource: '../src/**/Adapters/Queue'
+
+  specification:
+    namespace: Iteo\
+    resource: '../src/**/Domain/Specification/*'
+
+  persistence:
+    namespace: Iteo\
+    resource: '../src/**/Domain/Persistence/*'
+
+  infrastructure:
+    namespace: Iteo\
+    resource: '../src/**/Infrastructure/*'
+
+  handlers:
+    namespace: Iteo\
+    resource: '../src/**/Application/**/*Handler.php'
+
+  Iteo\Client\Ports\Summary\GetSummary: '@App\Infrastructure\Client\ORMGetSummary'
 
   Iteo\Shared\DomainEvent\DomainEventsDispatcher: '@App\Infrastructure\Shared\SymfonyDomainEventsDispatcher'
-
-  Iteo\Client\Application\CreateClient\CreateClientHandler: ~
-  Iteo\Client\Application\PlaceOrder\PlaceOrderHandler: ~
-  Iteo\Client\Application\BlockClient\BlockClientHandler: ~
-  Iteo\Client\Application\TopUpClient\TopUpClientHandler: ~
-
-  Iteo\Client\Domain\Specification\ClientIdWasUsed: '@App\Infrastructure\Client\ORMClientIdWasUsed'
-  Iteo\Client\Domain\Specification\OrderIdWasUsed: '@App\Infrastructure\Client\ORMOrderIdWasUsed'
-
-  Iteo\Client\Domain\Persistence\ClientRepository: ~
-  Iteo\Client\Domain\Persistence\ClientStateRepository: '@App\Infrastructure\Framework\ORM\Repository\ClientEntityRepository'
+  Iteo\Shared\Queue\QueueBus: '@App\Infrastructure\Framework\MessengerQueueBus'
+  Iteo\Shared\CommandBus: '@App\Infrastructure\Framework\MessengerCommandBus'

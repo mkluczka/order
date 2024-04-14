@@ -77,7 +77,7 @@ final class DecimalTest extends TestCase
     {
         $this->assertEquals(
             $expected,
-            Decimal::fromFloat($left)->isMoreThen(Decimal::fromFloat($right)),
+            Decimal::fromFloat($left)->isGreaterThan(Decimal::fromFloat($right)),
         );
     }
 

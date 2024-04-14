@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Adapters\Console;
 
-use Iteo\Client\Application\TopUpClient\TopUpClient;
+use Iteo\Shared\Queue\Event\ClientToppedUpDto;
+use Iteo\Shared\Queue\QueueBus;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 final class TopUpClientCommand extends Command
 {
-    public function __construct(private readonly MessageBusInterface $messageBus)
+    public function __construct(private readonly QueueBus $queueBus)
     {
         parent::__construct('app:queue:top-up-client');
     }
@@ -28,8 +28,8 @@ final class TopUpClientCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->messageBus->dispatch(
-            new TopUpClient(
+        $this->queueBus->dispatch(
+            new ClientToppedUpDto(
                 $input->getArgument('clientId'),
                 (float) $input->getArgument('additionalBalance')
             )

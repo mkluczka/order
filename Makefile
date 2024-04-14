@@ -13,9 +13,12 @@ test:
 	./vendor/bin/phpunit --testdox
 
 infection:
-	./vendor/bin/infection --show-mutations
+	./vendor/bin/infection --show-mutations --threads=4
 
-check: ecs_fix phpstan test
+deptrac:
+	./vendor/bin/deptrac --report-uncovered
+
+check: ecs_fix phpstan deptrac test
 
 reset_dev_db:
 	bin/console doctrine:database:drop -f

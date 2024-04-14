@@ -6,7 +6,7 @@ namespace App\Infrastructure\Client;
 
 use App\Infrastructure\Framework\ORM\Repository\ClientEntityRepository;
 use Iteo\Client\Domain\Specification\ClientIdWasUsed;
-use Iteo\Client\Domain\ValueObject\ClientId;
+use Iteo\Shared\ClientId;
 
 final readonly class ORMClientIdWasUsed implements ClientIdWasUsed
 {
@@ -18,6 +18,6 @@ final readonly class ORMClientIdWasUsed implements ClientIdWasUsed
     {
         $result = $this->repository->findById($clientId);
 
-        return empty($result);
+        return !empty($result);
     }
 }

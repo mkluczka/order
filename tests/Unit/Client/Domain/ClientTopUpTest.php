@@ -7,7 +7,7 @@ namespace Tests\Unit\Client\Domain;
 use Iteo\Client\Domain\Client;
 use Iteo\Client\Domain\ClientState\ClientState;
 use Iteo\Client\Domain\Event\ClientToppedUp;
-use Iteo\Client\Domain\ValueObject\ClientId;
+use Iteo\Shared\ClientId;
 use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\TestCase;
 
@@ -28,7 +28,6 @@ final class ClientTopUpTest extends TestCase
             new ClientState(
                 $clientId,
                 $initialAmount,
-                [],
                 false
             )
         );
@@ -49,7 +48,6 @@ final class ClientTopUpTest extends TestCase
             new ClientState(
                 $clientId,
                 $initialAmount,
-                [],
                 false
             )
         );

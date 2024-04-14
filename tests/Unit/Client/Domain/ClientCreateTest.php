@@ -6,7 +6,7 @@ namespace Tests\Unit\Client\Domain;
 
 use Iteo\Client\Domain\Client;
 use Iteo\Client\Domain\Event\ClientCreated;
-use Iteo\Client\Domain\ValueObject\ClientId;
+use Iteo\Shared\ClientId;
 use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Money;
 use PHPUnit\Framework\Attributes\TestWith;

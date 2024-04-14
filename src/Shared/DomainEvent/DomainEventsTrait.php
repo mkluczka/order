@@ -9,7 +9,7 @@ trait DomainEventsTrait
     /** @var DomainEvent[] */
     private array $domainEvents = [];
 
-    protected function recordEvent(DomainEvent $event): void
+    private function recordEvent(DomainEvent $event): void
     {
         $this->domainEvents[] = $event;
     }

@@ -9,12 +9,8 @@ use Iteo\Client\Domain\Event\ClientBlocked;
 use Iteo\Client\Domain\Event\ClientCharged;
 use Iteo\Client\Domain\Event\ClientCreated;
 use Iteo\Client\Domain\Event\ClientToppedUp;
-use Iteo\Client\Domain\Event\OrderPlaced;
-use Iteo\Client\Domain\Exception\CannotPlaceOrderOnBlockedClient;
 use Iteo\Client\Domain\Exception\InsufficentFunds;
-use Iteo\Client\Domain\ValueObject\ClientId;
-use Iteo\Client\Domain\ValueObject\Order\Order;
-use Iteo\Client\Domain\ValueObject\Order\OrderId;
+use Iteo\Shared\ClientId;
 use Iteo\Shared\DomainEvent\DomainEventsTrait;
 use Iteo\Shared\Money\Money;
 
@@ -24,9 +20,6 @@ final class Client
     use ClientStateTrait;
 
     private Money $balance;
-
-    /** @var array<OrderId> */
-    private array $orders = [];
 
     private bool $isBlocked = false;
 
@@ -49,42 +42,6 @@ final class Client
         return $client;
     }
 
-    public function placeOrder(Order $order): void
-    {
-        if ($this->isBlocked) {
-            throw new CannotPlaceOrderOnBlockedClient($this->id);
-        }
-
-        if (in_array($order->id, $this->orders, true)) {
-            return;
-        }
-
-        if ($order->price->isGreaterThen($this->balance)) {
-            throw new InsufficentFunds($order->price, $this->balance);
-        }
-
-        $previousBalance = $this->balance;
-        $this->balance = $this->balance->minus($order->price);
-        $this->orders[] = $order->id;
-
-        $this->recordEvent(
-            new OrderPlaced(
-                $order->id,
-                $this->id,
-                $order->products,
-            )
-        );
-
-        if (!$previousBalance->equals($this->balance)) {
-            $this->recordEvent(
-                new ClientCharged(
-                    $this->id,
-                    $previousBalance,
-                    $this->balance,
-                )
-            );
-        }
-    }
 
     public function block(): void
     {
@@ -113,5 +70,21 @@ final class Client
                 $this->balance,
             )
         );
+    }
+
+    public function charge(Money $amount): void
+    {
+        if ($amount->equals(Money::fromFloat(0))) {
+            return;
+        }
+
+        if ($amount->isGreaterThan($this->balance)) {
+            throw new InsufficentFunds($amount, $this->balance);
+        }
+
+        $previousBalance = $this->balance;
+        $this->balance = $this->balance->minus($amount);
+
+        $this->recordEvent(new ClientCharged($this->id, $previousBalance, $this->balance));
     }
 }

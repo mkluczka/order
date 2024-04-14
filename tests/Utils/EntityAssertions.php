@@ -38,7 +38,7 @@ trait EntityAssertions
      */
     protected function assertOrdersInDatabase(string $clientId, array $clientOrderIds): void
     {
-        $result = $this->getOrderEntityRepository()->findBy(['client' => $clientId]);
+        $result = $this->getOrderEntityRepository()->findBy(['clientId' => $clientId]);
 
         Assert::assertCount(count($clientOrderIds), $result);
         Assert::assertEquals($clientOrderIds, array_map(fn (OrderEntity $order) => $order->id, $result));
@@ -47,5 +47,12 @@ trait EntityAssertions
     private function getOrderEntityRepository(): OrderEntityRepository
     {
         return self::getContainer()->get(OrderEntityRepository::class);
+    }
+
+    private function assertNoOrdersInDatabase(): void
+    {
+        $result = $this->getOrderEntityRepository()->findAll();
+
+        Assert::assertEmpty($result);
     }
 }

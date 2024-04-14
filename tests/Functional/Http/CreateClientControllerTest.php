@@ -70,38 +70,38 @@ final class CreateClientControllerTest extends WebTestCase
         yield [
             [],
             [
-                'clientId' => 'Invalid value',
-                'balance' => 'Invalid value',
+                '[clientId]' => 'This field is missing.',
+                '[balance]' => 'This field is missing.',
             ],
         ];
 
         yield [
             ['clientId' => 15, 'balance' => 'abc'],
             [
-                'clientId' => 'Invalid value',
-                'balance' => 'Invalid value',
+                '[clientId]' => 'This is not a valid UUID.',
+                '[balance]' => 'This value should be of type float.'
             ]
         ];
 
         yield [
             ['clientId' => 'abc', 'balance' => 'abc'],
             [
-                'clientId' => 'Invalid value',
-                'balance' => 'Invalid value',
+                '[clientId]' => 'This is not a valid UUID.',
+                '[balance]' => 'This value should be of type float.'
             ]
         ];
 
         yield [
             ['clientId' => 'ecdc369f-6221-4a89-b715-b0f8b5b5c850', 'balance' => 'abc'],
             [
-                'balance' => 'Invalid value',
+                '[balance]' => 'This value should be of type float.'
             ]
         ];
 
         yield [
             ['clientId' => 'abc', 'balance' => 12.34],
             [
-                'clientId' => 'Invalid value',
+                '[clientId]' => 'This is not a valid UUID.'
             ],
         ];
     }
