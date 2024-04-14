@@ -8,7 +8,7 @@ use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Exception\MoneyAmountMustNotBeNegative;
 use JsonSerializable;
 
-final readonly class Money implements \Stringable,JsonSerializable
+final readonly class Money implements \Stringable, JsonSerializable
 {
     public function __construct(public Decimal $amount)
     {

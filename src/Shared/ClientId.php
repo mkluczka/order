@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Iteo\Shared;
 
-final readonly class ClientId implements \Stringable,\JsonSerializable
+final readonly class ClientId implements \Stringable, \JsonSerializable
 {
     public function __construct(public string $value)
     {
@@ -17,6 +17,6 @@ final readonly class ClientId implements \Stringable,\JsonSerializable
 
     public function jsonSerialize(): string
     {
-        return (string)$this;
+        return (string) $this;
     }
 }
