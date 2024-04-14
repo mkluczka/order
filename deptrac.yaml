@@ -114,6 +114,7 @@ deptrac:
 
   ruleset:
     app/Adapters:
+      - app/Infrastructure
       - Shared
 
     app/Infrastructure:
