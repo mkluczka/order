@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Iteo\Order\Application\Create;
 
-final readonly class Create
+final readonly class CreateOrder
 {
     /**
      * @param string $orderId

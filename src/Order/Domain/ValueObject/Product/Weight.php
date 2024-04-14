@@ -6,7 +6,7 @@ namespace Iteo\Order\Domain\ValueObject\Product;
 
 use Iteo\Shared\Decimal\Decimal;
 
-final readonly class Weight implements \Stringable
+final readonly class Weight implements \Stringable,\JsonSerializable
 {
     public function __construct(public Decimal $decimal)
     {
@@ -25,5 +25,10 @@ final readonly class Weight implements \Stringable
     public function __toString(): string
     {
         return (string) $this->decimal;
+    }
+
+    public function jsonSerialize(): float
+    {
+        return $this->asFloat();
     }
 }

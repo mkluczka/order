@@ -9,13 +9,13 @@ use Iteo\Shared\ClientId;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class BlockHandler
+final readonly class BlockClientHandler
 {
     public function __construct(private ClientRepository $clientRepository)
     {
     }
 
-    public function __invoke(Block $command): void
+    public function __invoke(BlockClient $command): void
     {
         $clientId = new ClientId($command->clientId);
 

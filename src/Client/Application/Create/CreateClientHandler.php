@@ -14,7 +14,7 @@ use Iteo\Shared\Money\Money;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class CreateHandler
+final readonly class CreateClientHandler
 {
     public function __construct(
         private ClientIdWasUsed $clientIdWasUsed,
@@ -22,7 +22,7 @@ final readonly class CreateHandler
     ) {
     }
 
-    public function __invoke(Create $command): void
+    public function __invoke(CreateClient $command): void
     {
         $clientId = new ClientId($command->clientId);
         $initialBalance = new Money(Decimal::fromFloat($command->initialBalance));

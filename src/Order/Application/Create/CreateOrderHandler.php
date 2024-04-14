@@ -21,7 +21,7 @@ use Iteo\Shared\OrderId;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class CreateHandler
+final readonly class CreateOrderHandler
 {
     public function __construct(
         private OrderIdWasUsed $orderIdWasUsed,
@@ -30,7 +30,7 @@ final readonly class CreateHandler
     ) {
     }
 
-    public function __invoke(Create $command): void
+    public function __invoke(CreateOrder $command): void
     {
         $orderId = new OrderId($command->orderId);
         $clientId = new ClientId($command->clientId);

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Shared;
 
-use App\Infrastructure\Framework\ORM\Entity\AuditLogEntity;
 use App\Infrastructure\Framework\ORM\Repository\AuditLogEntityRepository;
+use Iteo\Client\Domain\Event\ClientBlocked;
+use Iteo\Client\Domain\Event\ClientCharged;
 use Iteo\Client\Domain\Event\ClientCreated;
+use Iteo\Client\Domain\Event\ClientToppedUp;
+use Iteo\Order\Domain\Event\OrderCreated;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final readonly class AuditLogEventSubscriber implements EventSubscriberInterface
@@ -18,19 +21,16 @@ final readonly class AuditLogEventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ClientCreated::class => 'onClientCreated',
+            ClientCreated::class => 'saveAuditLog',
+            ClientCharged::class => 'saveAuditLog',
+            ClientBlocked::class => 'saveAuditLog',
+            ClientToppedUp::class => 'saveAuditLog',
+            OrderCreated::class => 'saveAuditLog',
         ];
     }
 
-    public function onClientCreated(ClientCreated $event): void
+    public function saveAuditLog(object $event): void
     {
-        $auditLog = new AuditLogEntity();
-        $auditLog->message = '[event] ClientCreated';
-        $auditLog->payload = [
-            'clientId' => (string) $event->clientId,
-            'initialBalance' => $event->initialBalance->amount->asFloat(),
-        ];
-
-        $this->auditLogRepository->save($auditLog);
+        $this->auditLogRepository->addNewFromObject('domain-event', $event);
     }
 }

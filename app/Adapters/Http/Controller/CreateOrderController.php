@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Adapters\Http\Controller;
 
-use Iteo\Order\Application\Create\Create;
+use Iteo\Order\Application\Create\CreateOrder;
 use Iteo\Shared\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ final readonly class CreateOrderController
         $data = $this->getValidatedData($request);
 
         $this->commandBus->dispatch(
-            new Create(
+            new CreateOrder(
                 $data['orderId'],
                 $data['clientId'],
                 $data['products']
@@ -58,8 +58,8 @@ final readonly class CreateOrderController
                 new Collection([
                     'productId' => [new Required(), new NotBlank(), new Type('string')],
                     'quantity' => [new Required(), new NotBlank(), new Type('int')],
-                    'price' => [new Required(), new NotBlank(), new Type('float')],
-                    'weight' => [new Required(), new NotBlank(), new Type('float')],
+                    'price' => [new Required(), new NotBlank(), new Type('number')],
+                    'weight' => [new Required(), new NotBlank(), new Type('number')],
                 ]),
             ])
         ]));

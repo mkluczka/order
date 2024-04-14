@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Adapters\Http\Controller;
 
-use Iteo\Client\Application\Create\Create;
+use Iteo\Client\Application\Create\CreateClient;
 use Iteo\Shared\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,13 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Optional;
 use Symfony\Component\Validator\Constraints\Required;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\Uuid;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route("/clients", methods: ["POST"])]
+#[Route("/clients", methods: ["POST"], format: 'json')]
 final readonly class CreateClientController
 {
     public function __construct(
@@ -33,7 +34,7 @@ final readonly class CreateClientController
 
         $result = $this->validator->validate($data, new Collection([
             'clientId' => new Uuid(),
-            'balance' => new Required([new NotBlank(), new Type('float')]),
+            'balance' => new Required([new NotBlank(), new Type('number')]),
         ]));
 
         if ($result->count()) {
@@ -41,7 +42,7 @@ final readonly class CreateClientController
         }
 
         $this->commandBus->dispatch(
-            new Create(
+            new CreateClient(
                 (string) $data['clientId'],
                 (float) $data['balance'],
             )

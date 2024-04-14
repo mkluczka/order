@@ -6,8 +6,9 @@ namespace Iteo\Shared\Money;
 
 use Iteo\Shared\Decimal\Decimal;
 use Iteo\Shared\Money\Exception\MoneyAmountMustNotBeNegative;
+use JsonSerializable;
 
-final readonly class Money implements \Stringable
+final readonly class Money implements \Stringable,JsonSerializable
 {
     public function __construct(public Decimal $amount)
     {
@@ -49,6 +50,11 @@ final readonly class Money implements \Stringable
     public function asFloat(): float
     {
         return $this->amount->asFloat();
+    }
+
+    public function jsonSerialize(): float
+    {
+        return $this->asFloat();
     }
 
     public function __toString(): string

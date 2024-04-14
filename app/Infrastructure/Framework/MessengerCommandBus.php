@@ -15,6 +15,9 @@ final readonly class MessengerCommandBus implements CommandBus
 
     public function dispatch(object $command): void
     {
-        $this->messageBus->dispatch($command);
+        $this->messageBus->dispatch(
+            $command,
+            [new MessageTypeStamp('command')],
+        );
     }
 }

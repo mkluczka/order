@@ -177,8 +177,8 @@ final class CreateOrderControllerTest extends WebTestCase
             [
                 '[products][0][productId]' => 'This value should be of type string.',
                 '[products][0][quantity]' => 'This value should be of type int.',
-                '[products][0][price]' => 'This value should be of type float.',
-                '[products][0][weight]' => 'This value should be of type float.'
+                '[products][0][price]' => 'This value should be of type number.',
+                '[products][0][weight]' => 'This value should be of type number.'
             ]
         ];
 
@@ -198,8 +198,8 @@ final class CreateOrderControllerTest extends WebTestCase
             [
                 '[products][0][productId]' => 'This value should be of type string.',
                 '[products][0][quantity]' => 'This value should be of type int.',
-                '[products][0][price]' => 'This value should be of type float.',
-                '[products][0][weight]' => 'This value should be of type float.'
+                '[products][0][price]' => 'This value should be of type number.',
+                '[products][0][weight]' => 'This value should be of type number.'
             ]
         ];
     }

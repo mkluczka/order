@@ -23,8 +23,9 @@ final class ListAuditLogCommand extends Command
         $auditLogs = $this->auditLogEntityRepository->findAll();
 
         $table = new Table($output);
-        $table->setHeaders(['', 'Message', 'Payload', 'Created at']);
+        $table->setHeaders(['ID', 'Message', 'Payload', 'Created at']);
         $table->setStyle('box');
+        $table->setVertical();
         $table->addRows(
             array_map(
                 fn (AuditLogEntity $entity) => $entity->asArray(),

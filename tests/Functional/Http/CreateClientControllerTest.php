@@ -79,7 +79,7 @@ final class CreateClientControllerTest extends WebTestCase
             ['clientId' => 15, 'balance' => 'abc'],
             [
                 '[clientId]' => 'This is not a valid UUID.',
-                '[balance]' => 'This value should be of type float.'
+                '[balance]' => 'This value should be of type number.'
             ]
         ];
 
@@ -87,14 +87,14 @@ final class CreateClientControllerTest extends WebTestCase
             ['clientId' => 'abc', 'balance' => 'abc'],
             [
                 '[clientId]' => 'This is not a valid UUID.',
-                '[balance]' => 'This value should be of type float.'
+                '[balance]' => 'This value should be of type number.'
             ]
         ];
 
         yield [
             ['clientId' => 'ecdc369f-6221-4a89-b715-b0f8b5b5c850', 'balance' => 'abc'],
             [
-                '[balance]' => 'This value should be of type float.'
+                '[balance]' => 'This value should be of type number.'
             ]
         ];
 

@@ -17,7 +17,8 @@ final readonly class MessengerQueueBus implements QueueBus
     public function dispatch(object $message): void
     {
         $this->messageBus->dispatch($message, [
-            new TransportNamesStamp('queue')
+            new TransportNamesStamp('queue'),
+            new MessageTypeStamp('queue-message')
         ]);
     }
 }

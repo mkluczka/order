@@ -31,3 +31,9 @@ reset_test_db:
 	bin/console doctrine:migrations:migrate --no-interaction -etest
 
 resetdb: reset_dev_db reset_test_db
+
+entrypoint:
+	php bin/console ca:cl
+	php bin/console ca:wa
+	@make reset_dev_db
+	php -S 127.0.0.1:44444 /var/www/public/index.php

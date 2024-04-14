@@ -44,7 +44,7 @@ class AuditLogEntity
         return [
             $this->id,
             $this->message,
-            (string) json_encode($this->payload),
+            (string) json_encode($this->payload, JSON_PRETTY_PRINT),
             $this->createdAt,
         ];
     }

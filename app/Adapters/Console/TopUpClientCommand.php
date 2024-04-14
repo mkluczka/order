@@ -28,14 +28,17 @@ final class TopUpClientCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $clientId = $input->getArgument('clientId');
+        $additionalAmount = (float) $input->getArgument('additionalBalance');
+
         $this->queueBus->dispatch(
             new ClientToppedUpDto(
-                $input->getArgument('clientId'),
-                (float) $input->getArgument('additionalBalance')
+                $clientId,
+                $additionalAmount
             )
         );
 
-        $output->writeln('<info>OK</info>');
+        $output->writeln("Client <comment>$clientId</comment> was topped up with <comment>$additionalAmount</comment> amount");
 
         return self::SUCCESS;
     }
