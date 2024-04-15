@@ -33,8 +33,9 @@ final readonly class CreateClientController
 
         $result = $this->validator->validate($data, new Collection([
             'clientId' => new Uuid(),
+            'name' => new Required([new NotBlank(), new Type('string')]),
             'balance' => new Required([new NotBlank(), new Type('number')]),
-        ], allowExtraFields: true));
+        ]));
 
         if ($result->count()) {
             throw new ValidationFailedException($data, $result);
@@ -43,6 +44,7 @@ final readonly class CreateClientController
         $this->commandBus->dispatch(
             new CreateClient(
                 (string) $data['clientId'],
+                (string) $data['name'],
                 (float) $data['balance'],
             )
         );

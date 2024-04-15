@@ -32,8 +32,14 @@ reset_test_db:
 
 resetdb: reset_dev_db reset_test_db
 
+init:
+	composer install
+	@make resetdb
+	@make check
+	@make infection
+	docker-compose up -d
+
 entrypoint:
 	php bin/console ca:cl
 	php bin/console ca:wa
-	@make reset_dev_db
-	php -S 127.0.0.1:44444 /var/www/public/index.php
+	php -S 0.0.0.0:44444 /var/www/public/index.php

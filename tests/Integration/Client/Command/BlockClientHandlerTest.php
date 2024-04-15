@@ -16,8 +16,9 @@ final class BlockClientHandlerTest extends AppTestCase
     public function testBlockClient(): void
     {
         $clientId = '7d9c5aa0-735d-4ff3-883f-9f346a9f3230';
+        $clientName = 'test client name';
 
-        $this->dispatchMessage(new CreateClient($clientId, 0.0));
+        $this->dispatchMessage(new CreateClient($clientId, $clientName, 0.0));
 
         $this->dispatchMessage(new BlockClient($clientId));
 

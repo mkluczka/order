@@ -16,7 +16,7 @@ final class BlockClientCommandTest extends ConsoleCommandTest
     {
         $clientId = 'df71763c-406f-415f-9c70-f23b0766a7ea';
 
-        $this->dispatchMessage(new CreateClient($clientId, 11.11));
+        $this->dispatchMessage(new CreateClient($clientId, 'test', 11.11));
 
         $this->testCliCommand('app:queue:block-client', [
             'clientId' => $clientId,

@@ -34,6 +34,11 @@ deptrac:
         - type: className
           value: ^Doctrine\\.*
 
+    - name: symfony/serializer
+      collectors:
+        - type: className
+          value: Symfony\\Component\\Serializer\\.*
+
   ruleset:
     app/Adapters:
       - Client/Application
@@ -48,6 +53,7 @@ deptrac:
       - symfony/validator
       - symfony/http
       - symfony/event-dispatcher
+      - symfony/serializer
       - doctrine
 
     Client/Adapters:

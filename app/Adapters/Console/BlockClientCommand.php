@@ -27,9 +27,10 @@ final class BlockClientCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->queueBus->dispatch(new ClientBlockedDto($input->getArgument('clientId')));
+        $clientId = $input->getArgument('clientId');
+        $this->queueBus->dispatch(new ClientBlockedDto($clientId));
 
-        $output->writeln('<info>OK</info>');
+        $output->writeln("Client <comment>$clientId</comment> was blocked");
 
         return self::SUCCESS;
     }

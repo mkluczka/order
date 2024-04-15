@@ -18,7 +18,7 @@ final class TopUpClientHandlerTest extends AppTestCase
         $clientId = '8fc0371e-7dcb-4afe-b31f-98a3d76ef578';
         $additionalAmount = 33.22;
 
-        $this->dispatchMessage(new CreateClient($clientId, 0.0));
+        $this->dispatchMessage(new CreateClient($clientId, 'test', 0.0));
 
         $this->dispatchMessage(new TopUpClient($clientId, $additionalAmount));
 

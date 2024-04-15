@@ -31,7 +31,7 @@ final readonly class CreateClientHandler
             throw new ClientIdIsAlreadyUsed($clientId);
         }
 
-        $client = Client::create($clientId, $initialBalance);
+        $client = Client::create($clientId, $command->clientName, $initialBalance);
 
         $this->clientRepository->save($client);
     }

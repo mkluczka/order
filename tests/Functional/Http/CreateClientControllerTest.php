@@ -25,6 +25,7 @@ final class CreateClientControllerTest extends WebTestCase
     public function testCreateClient(): void
     {
         $clientId = '6fbf322e-cdea-4bc9-9cd5-fceeb2cdec8c';
+        $clientName = 'test name';
         $initialBalance = 12.34;
 
         $this->http->jsonRequest(
@@ -32,6 +33,7 @@ final class CreateClientControllerTest extends WebTestCase
             '/clients',
             [
                 'clientId' => $clientId,
+                'name' => $clientName,
                 'balance' => $initialBalance,
             ]
         );
@@ -72,11 +74,21 @@ final class CreateClientControllerTest extends WebTestCase
             [
                 '[clientId]' => 'This field is missing.',
                 '[balance]' => 'This field is missing.',
+                '[name]' => 'This field is missing.'
             ],
         ];
 
         yield [
-            ['clientId' => 15, 'balance' => 'abc'],
+            ['clientId' => 15, 'balance' => 'abc', 'name' => 15],
+            [
+                '[clientId]' => 'This is not a valid UUID.',
+                '[balance]' => 'This value should be of type number.',
+                '[name]' => 'This value should be of type string.'
+            ]
+        ];
+
+        yield [
+            ['clientId' => 'abc', 'balance' => 'abc', 'name' => 'abc'],
             [
                 '[clientId]' => 'This is not a valid UUID.',
                 '[balance]' => 'This value should be of type number.'
@@ -84,22 +96,14 @@ final class CreateClientControllerTest extends WebTestCase
         ];
 
         yield [
-            ['clientId' => 'abc', 'balance' => 'abc'],
-            [
-                '[clientId]' => 'This is not a valid UUID.',
-                '[balance]' => 'This value should be of type number.'
-            ]
-        ];
-
-        yield [
-            ['clientId' => 'ecdc369f-6221-4a89-b715-b0f8b5b5c850', 'balance' => 'abc'],
+            ['clientId' => 'ecdc369f-6221-4a89-b715-b0f8b5b5c850', 'balance' => 'abc', 'name' => 'abc'],
             [
                 '[balance]' => 'This value should be of type number.'
             ]
         ];
 
         yield [
-            ['clientId' => 'abc', 'balance' => 12.34],
+            ['clientId' => 'abc', 'balance' => 12.34, 'name' => 'abc'],
             [
                 '[clientId]' => 'This is not a valid UUID.'
             ],

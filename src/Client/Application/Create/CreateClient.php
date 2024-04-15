@@ -8,6 +8,7 @@ final readonly class CreateClient
 {
     public function __construct(
         public string $clientId,
+        public string $clientName,
         public float $initialBalance,
     ) {
     }

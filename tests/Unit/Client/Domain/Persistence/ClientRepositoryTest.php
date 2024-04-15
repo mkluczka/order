@@ -53,14 +53,15 @@ final class ClientRepositoryTest extends TestCase
     public function testDomainEventsAreDispatchedOnSave(): void
     {
         $clientId = new ClientId('5adb7472-1a30-425b-b755-892805ba2065');
+        $clientName = 'test name';
         $initialBalance = new Money(Decimal::fromFloat(11.11));
 
-        $client = Client::create($clientId, $initialBalance);
+        $client = Client::create($clientId, $clientName, $initialBalance);
 
         $this->domainEventsDispatcherMock
             ->expects($this->once())
             ->method('dispatch')
-            ->with(new ClientCreated($clientId, $initialBalance));
+            ->with(new ClientCreated($clientId, $clientName, $initialBalance));
 
         $this->sut->save($client);
     }

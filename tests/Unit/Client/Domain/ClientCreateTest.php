@@ -21,13 +21,14 @@ final class ClientCreateTest extends TestCase
     public function testCreate(string $clientId, float $initialBalance): void
     {
         $clientId = new ClientId($clientId);
+        $clientName = "name $clientId";
         $initialBalance = new Money(Decimal::fromFloat($initialBalance));
 
         $expectedEvents = [
-            new ClientCreated($clientId, $initialBalance),
+            new ClientCreated($clientId, $clientName, $initialBalance),
         ];
 
-        $client = Client::create($clientId, $initialBalance);
+        $client = Client::create($clientId, $clientName, $initialBalance);
 
         $this->assertEquals($expectedEvents, $client->collectEvents());
     }

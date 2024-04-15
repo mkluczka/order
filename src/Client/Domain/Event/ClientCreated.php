@@ -12,6 +12,7 @@ final readonly class ClientCreated implements DomainEvent
 {
     public function __construct(
         public ClientId $clientId,
+        public string $clientName,
         public Money $initialBalance,
     ) {
     }

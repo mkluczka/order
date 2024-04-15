@@ -23,7 +23,7 @@ final class CreateOrderHandlerTest extends AppTestCase
         $initialBalance = 100.0;
         $expectedBalance = 40.0;
 
-        $this->dispatchMessage(new CreateClient($clientId, $initialBalance));
+        $this->dispatchMessage(new CreateClient($clientId, 'test', $initialBalance));
 
         $this->dispatchMessage(
             new CreateOrder(
@@ -84,7 +84,7 @@ final class CreateOrderHandlerTest extends AppTestCase
         $initialBalance = 100.0;
         $expectedBalance = 25.0;
 
-        $this->dispatchMessage(new CreateClient($clientId, $initialBalance));
+        $this->dispatchMessage(new CreateClient($clientId, 'test', $initialBalance));
 
         $this->dispatchMessage(new CreateOrder($order1Id, $clientId, $products));
         $this->dispatchMessage(new CreateOrder($order2Id, $clientId, $products));
@@ -99,7 +99,7 @@ final class CreateOrderHandlerTest extends AppTestCase
         $orderId = '27ffc489-b791-4b18-9ea2-609e3bd96746';
         $clientId = '0b1e3cd3-e806-40b5-8a7e-05b2baa64977';
 
-        $this->dispatchMessage(new CreateClient($clientId, 9990.0));
+        $this->dispatchMessage(new CreateClient($clientId, 'test', 9990.0));
 
         $placeOrderCommand = new CreateOrder(
             $orderId,
@@ -126,7 +126,7 @@ final class CreateOrderHandlerTest extends AppTestCase
         $orderId = '27ffc489-b791-4b18-9ea2-609e3bd96746';
         $clientId = '0b1e3cd3-e806-40b5-8a7e-05b2baa64977';
 
-        $this->dispatchMessage(new CreateClient($clientId, 111.11));
+        $this->dispatchMessage(new CreateClient($clientId, 'test', 111.11));
         $this->dispatchMessage(new BlockClient($clientId));
 
         $this->expectException(HandlerFailedException::class);

@@ -8,6 +8,7 @@ use App\Infrastructure\Framework\ORM\Repository\AuditLogEntityRepository;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
 use Symfony\Component\Messenger\Middleware\StackInterface;
+use Symfony\Component\Messenger\Stamp\ReceivedStamp;
 
 final class AuditLogMessengerMiddleware implements MiddlewareInterface
 {
@@ -22,7 +23,13 @@ final class AuditLogMessengerMiddleware implements MiddlewareInterface
         $typeStamp = $envelope->last(MessageTypeStamp::class);
 
         if ($typeStamp) {
-            $this->auditLogEntityRepository->addNewFromObject($typeStamp->type, $message);
+            $logType = $typeStamp->type;
+
+            if ($envelope->last(ReceivedStamp::class)) {
+                $logType .= ' (received)';
+            }
+
+            $this->auditLogEntityRepository->addNewFromObject($logType, $message);
         }
 
         return $stack->next()->handle($envelope, $stack);

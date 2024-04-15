@@ -18,7 +18,7 @@ final class CreateClientHandlerTest extends AppTestCase
         $clientId = '0b1e3cd3-e806-40b5-8a7e-05b2baa64977';
         $initialBalance = 0.0;
 
-        $this->dispatchMessage(new CreateClient($clientId, $initialBalance));
+        $this->dispatchMessage(new CreateClient($clientId, 'test name', $initialBalance));
 
         $this->assertClientInDatabase($clientId, $initialBalance);
     }
@@ -26,11 +26,12 @@ final class CreateClientHandlerTest extends AppTestCase
     public function testCannotCreateSecondClientOnSameId(): void
     {
         $clientId = 'af64f9d9-3234-4b3e-9a42-ecd250383281';
-        $this->dispatchMessage(new CreateClient($clientId, 0.));
+
+        $this->dispatchMessage(new CreateClient($clientId, 'test name', 0.));
 
         $this->expectException(HandlerFailedException::class);
         $this->expectExceptionMessageMatches("/\($clientId\) is already used/");
 
-        $this->dispatchMessage(new CreateClient($clientId, 0.));
+        $this->dispatchMessage(new CreateClient($clientId, 'test name', 0.));
     }
 }

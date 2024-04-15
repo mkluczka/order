@@ -27,7 +27,7 @@ final class Client
     {
     }
 
-    public static function create(ClientId $clientId, Money $initialBalance): self
+    public static function create(ClientId $clientId, string $clientName, Money $initialBalance): self
     {
         $client = new self($clientId);
         $client->balance = $initialBalance;
@@ -35,6 +35,7 @@ final class Client
         $client->recordEvent(
             new ClientCreated(
                 $clientId,
+                $clientName,
                 $initialBalance,
             )
         );
