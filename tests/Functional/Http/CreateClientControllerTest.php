@@ -105,4 +105,23 @@ final class CreateClientControllerTest extends WebTestCase
             ],
         ];
     }
+
+    public function testIgnoreClientName(): void
+    {
+        $clientId = '6fbf322e-cdea-4bc9-9cd5-fceeb2cdec8c';
+        $initialBalance = 12.34;
+
+        $this->http->jsonRequest(
+            'POST',
+            '/clients',
+            [
+                'clientId' => $clientId,
+                'name' => 'should be ignored',
+                'balance' => $initialBalance,
+            ]
+        );
+
+        self::assertResponseStatusCodeSame(204);
+        $this->assertClientInDatabase($clientId, $initialBalance);
+    }
 }
